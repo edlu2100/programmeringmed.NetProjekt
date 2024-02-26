@@ -47,10 +47,10 @@ namespace programmeringmed.NetProjekt.Controllers
         }
 
         // GET: WorkoutExercise/Create
-        public IActionResult Create()
+        public IActionResult Create(int workoutId)
         {
             ViewData["ExerciseId"] = new SelectList(_context.Exercise, "Id", "ExerciseName");
-            ViewData["WorkoutId"] = new SelectList(_context.Workout, "Id", "Description");
+            ViewData["WorkoutId"] = workoutId;
             return View();
         }
 
@@ -68,7 +68,7 @@ namespace programmeringmed.NetProjekt.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["ExerciseId"] = new SelectList(_context.Exercise, "Id", "ExerciseName", workoutExerciseModel.ExerciseId);
-            ViewData["WorkoutId"] = new SelectList(_context.Workout, "Id", "Description", workoutExerciseModel.WorkoutId);
+            ViewData["WorkoutId"] = new SelectList(_context.Workout, "Id", "WorkoutName", workoutExerciseModel.WorkoutId);
             return View(workoutExerciseModel);
         }
 

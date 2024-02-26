@@ -35,6 +35,7 @@ namespace programmeringmed.NetProjekt.Controllers
             }
 
             var workoutModel = await _context.Workout
+                .Include(w => w.WorkoutExercises)
                 .Include(w => w.BodyPart)
                 .Include(w => w.ExerciseForm)
                 .FirstOrDefaultAsync(m => m.Id == id);
@@ -45,6 +46,7 @@ namespace programmeringmed.NetProjekt.Controllers
 
             return View(workoutModel);
         }
+        
 
         // GET: Workout/Create
         public IActionResult Create()
@@ -55,22 +57,35 @@ namespace programmeringmed.NetProjekt.Controllers
         }
 
         // POST: Workout/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,WorkoutName,Description,Date,Completed,BodyPartId,ExerciseFormId")] WorkoutModel workoutModel)
+[HttpPost]
+[ValidateAntiForgeryToken]
+public async Task<IActionResult> Create([Bind("Id,WorkoutName,Description,Date,Completed,BodyPartId,ExerciseFormId")] WorkoutModel workoutModel)
+{
+    if (ModelState.IsValid)
+    {
+        if (workoutModel.ExerciseFormId == 1) // Om "Kondition" är valt
         {
-            if (ModelState.IsValid)
-            {
-                _context.Add(workoutModel);
-                await _context.SaveChangesAsync();
-
-                // Redirect till WorkoutExercise/Create och inkludera id för det skapade träningspasset
-                return RedirectToAction("Create", "WorkoutExercise", new { workoutId = workoutModel.Id });
-            }
-            ViewData["BodyPartId"] = new SelectList(_context.BodyPart, "Id", "BodyPart", workoutModel.BodyPartId);
-            ViewData["ExerciseFormId"] = new SelectList(_context.ExerciseForm, "Id", "ExerciseForm", workoutModel.ExerciseFormId);
-            return View(workoutModel);
+            workoutModel.BodyPartId = null; // Sätt BodyPartId till null
         }
+
+        _context.Add(workoutModel);
+        await _context.SaveChangesAsync();
+
+        if (workoutModel.ExerciseFormId == 1) // Kondition valdes
+        {
+            return RedirectToAction("Index", "Workout"); // Redirect till index för Workout
+        }
+        else
+        {
+            // Redirect till WorkoutExercise/Create och inkludera id för det skapade träningspasset
+            return RedirectToAction("Create", "WorkoutExercise", new { workoutId = workoutModel.Id });
+        }
+    }
+    ViewData["BodyPartId"] = new SelectList(_context.BodyPart, "Id", "BodyPart", workoutModel.BodyPartId);
+    ViewData["ExerciseFormId"] = new SelectList(_context.ExerciseForm, "Id", "ExerciseForm", workoutModel.ExerciseFormId);
+    return View(workoutModel);
+}
+
 
         // GET: Workout/Edit/5
         public async Task<IActionResult> Edit(int? id)

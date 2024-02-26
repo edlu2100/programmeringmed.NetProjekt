@@ -49,6 +49,32 @@
     </dl>
 </div>
 <div>
+    <h4>Exercises</h4>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Exercise
+                </th>
+                <th>
+                    Description
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.WorkoutExercises)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Exercise.ExerciseName)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div>
     <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>

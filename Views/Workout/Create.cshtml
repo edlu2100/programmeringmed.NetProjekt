@@ -34,7 +34,9 @@
             </div>
             <div id="bodyPartDiv" class="form-group" style="display: none;">
                 <label asp-for="BodyPartId" class="control-label">Vilken kroppsdel:</label>
-                <select asp-for="BodyPartId" class="form-control" asp-items="ViewBag.BodyPartId"></select>
+                <select asp-for="BodyPartId" class="form-control" asp-items="ViewBag.BodyPartId">
+
+                </select>
             </div>
 
             <div class="form-group">
@@ -43,9 +45,7 @@
         </form>
     </div>
 </div>
-<div>
-    <a asp-action="Create" asp-controller="Workout" class="btn btn-primary">Skapa nytt träningspass</a>
-</div>
+
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
