@@ -36,9 +36,11 @@ namespace programmeringmed.NetProjekt.Controllers
 
             var workoutModel = await _context.Workout
                 .Include(w => w.WorkoutExercises)
+                .ThenInclude(we => we.Exercise) // inkludera övningarna
                 .Include(w => w.BodyPart)
                 .Include(w => w.ExerciseForm)
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (workoutModel == null)
             {
                 return NotFound();
@@ -46,7 +48,8 @@ namespace programmeringmed.NetProjekt.Controllers
 
             return View(workoutModel);
         }
-        
+
+
 
         // GET: Workout/Create
         public IActionResult Create()
@@ -57,34 +60,34 @@ namespace programmeringmed.NetProjekt.Controllers
         }
 
         // POST: Workout/Create
-[HttpPost]
-[ValidateAntiForgeryToken]
-public async Task<IActionResult> Create([Bind("Id,WorkoutName,Description,Date,Completed,BodyPartId,ExerciseFormId")] WorkoutModel workoutModel)
-{
-    if (ModelState.IsValid)
-    {
-        if (workoutModel.ExerciseFormId == 1) // Om "Kondition" är valt
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("Id,WorkoutName,Description,Date,Completed,BodyPartId,ExerciseFormId")] WorkoutModel workoutModel)
         {
-            workoutModel.BodyPartId = null; // Sätt BodyPartId till null
-        }
+            if (ModelState.IsValid)
+            {
+                if (workoutModel.ExerciseFormId == 1) // Om "Kondition" är valt
+                {
+                    workoutModel.BodyPartId = null; // Sätt BodyPartId till null
+                }
 
-        _context.Add(workoutModel);
-        await _context.SaveChangesAsync();
+                _context.Add(workoutModel);
+                await _context.SaveChangesAsync();
 
-        if (workoutModel.ExerciseFormId == 1) // Kondition valdes
-        {
-            return RedirectToAction("Index", "Workout"); // Redirect till index för Workout
+                if (workoutModel.ExerciseFormId == 1) // Kondition valdes
+                {
+                    return RedirectToAction("Index", "Workout"); // Redirect till index för Workout
+                }
+                else
+                {
+                    // Redirect till WorkoutExercise/Create och inkludera id för det skapade träningspasset
+                    return RedirectToAction("Create", "WorkoutExercise", new { workoutId = workoutModel.Id });
+                }
+            }
+            ViewData["BodyPartId"] = new SelectList(_context.BodyPart, "Id", "BodyPart", workoutModel.BodyPartId);
+            ViewData["ExerciseFormId"] = new SelectList(_context.ExerciseForm, "Id", "ExerciseForm", workoutModel.ExerciseFormId);
+            return View(workoutModel);
         }
-        else
-        {
-            // Redirect till WorkoutExercise/Create och inkludera id för det skapade träningspasset
-            return RedirectToAction("Create", "WorkoutExercise", new { workoutId = workoutModel.Id });
-        }
-    }
-    ViewData["BodyPartId"] = new SelectList(_context.BodyPart, "Id", "BodyPart", workoutModel.BodyPartId);
-    ViewData["ExerciseFormId"] = new SelectList(_context.ExerciseForm, "Id", "ExerciseForm", workoutModel.ExerciseFormId);
-    return View(workoutModel);
-}
 
 
         // GET: Workout/Edit/5
@@ -162,20 +165,35 @@ public async Task<IActionResult> Create([Bind("Id,WorkoutName,Description,Date,C
             return View(workoutModel);
         }
 
-        // POST: Workout/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var workoutModel = await _context.Workout.FindAsync(id);
-            if (workoutModel != null)
-            {
-                _context.Workout.Remove(workoutModel);
-            }
+  // POST: Workout/Delete/5
+[HttpPost, ActionName("Delete")]
+[ValidateAntiForgeryToken]
+public async Task<IActionResult> DeleteConfirmed(int id)
+{
+    var workoutModel = await _context.Workout
+        .Include(w => w.WorkoutExercises)
+        .FirstOrDefaultAsync(m => m.Id == id);
+    
+    if (workoutModel == null)
+    {
+        return NotFound();
+    }
 
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
+    // Hämta alla WorkoutExercise-objekt relaterade till träningspasset
+    var workoutExercisesToDelete = workoutModel.WorkoutExercises.ToList();
+
+    // Radera alla WorkoutExercise-objekt
+    _context.WorkoutExercise.RemoveRange(workoutExercisesToDelete);
+
+    // Radera träningspasset
+    _context.Workout.Remove(workoutModel);
+
+    // Spara ändringar i databasen
+    await _context.SaveChangesAsync();
+
+    return RedirectToAction(nameof(Index));
+}
+
 
         private bool WorkoutModelExists(int id)
         {

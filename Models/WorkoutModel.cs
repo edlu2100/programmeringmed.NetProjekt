@@ -16,6 +16,7 @@ public class WorkoutModel
     public DateTime? Date { get; set; }
     [Required(ErrorMessage = "Om träningspassetär avslutat är obligatoriskt")]
     public bool Completed { get; set; } = false;
+    public int Lenght { get; set; }
     public int? BodyPartId { get; set; }
     public BodyPartModel? BodyPart { get; set; }
     public int? ExerciseFormId { get; set; }

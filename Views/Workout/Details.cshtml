@@ -10,40 +10,40 @@
     <h4>WorkoutModel</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.WorkoutName)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.WorkoutName)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Description)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Description)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Date)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Date)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Completed)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Completed)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.BodyPart)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.BodyPart.BodyPart)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.ExerciseForm)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.ExerciseForm.ExerciseForm)
         </dd>
     </dl>
@@ -59,6 +59,13 @@
                 <th>
                     Description
                 </th>
+                                <th>
+                    Video
+                </th>
+                                <th>
+                    BodyPart
+                </th>
+
             </tr>
         </thead>
         <tbody>
@@ -67,6 +74,25 @@
                 <tr>
                     <td>
                         @Html.DisplayFor(modelItem => item.Exercise.ExerciseName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Exercise.Description)
+                    </td>
+                    <td>
+                        <!-- YouTube video iframe -->
+                        @if (!string.IsNullOrEmpty(item.Exercise.VideoUrl))
+                        {
+                            <iframe src="@item.Exercise.VideoUrl" frameborder="0"
+                                allowfullscreen></iframe>
+                        }
+                        else
+                        {
+                            <p>No video available</p>
+                        }
+
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Exercise.BodyPart.BodyPart)
                     </td>
                 </tr>
             }
