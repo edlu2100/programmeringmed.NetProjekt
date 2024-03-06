@@ -11,28 +11,10 @@
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.WorkoutName)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.WorkoutName)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Date)
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Date)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Completed)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Completed)
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.BodyPart)
@@ -46,61 +28,67 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.ExerciseForm.ExerciseForm)
         </dd>
+        @if (Model.Length != null)
+        {
+            <dt class="col-sm-2">Length</dt>
+            <dd class="col-sm-10">@Html.DisplayFor(model => model.Length)</dd>
+        }
+        @if (!string.IsNullOrEmpty(Model.Comment))
+        {
+            <dt class="col-sm-2">Comment</dt>
+            <dd class="col-sm-10">@Html.DisplayFor(model => model.Comment)</dd>
+        }
+        @if (Model.Rating != null)
+        {
+            <dt class="col-sm-2">Rating</dt>
+            <dd class="col-sm-10">@Html.DisplayFor(model => model.Rating)</dd>
+        }
+        @if (Model.Completed != null)
+        {
+            <dt class="col-sm-2">Completed</dt>
+            <dd class="col-sm-10">@Html.DisplayFor(model => model.Completed)</dd>
+        }
     </dl>
 </div>
-<div>
+
+@if (Model.WorkoutExercises.Any())
+{
+    <div>
     <h4>Exercises</h4>
     <table class="table">
         <thead>
             <tr>
-                <th>
-                    Exercise
-                </th>
-                <th>
-                    Description
-                </th>
-                                <th>
-                    Video
-                </th>
-                                <th>
-                    BodyPart
-                </th>
-
+                <th>Exercise</th>
+                <th>Video</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var item in Model.WorkoutExercises)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Exercise.ExerciseName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Exercise.Description)
-                    </td>
-                    <td>
-                        <!-- YouTube video iframe -->
-                        @if (!string.IsNullOrEmpty(item.Exercise.VideoUrl))
-                        {
-                            <iframe src="@item.Exercise.VideoUrl" frameborder="0"
-                                allowfullscreen></iframe>
-                        }
-                        else
-                        {
-                            <p>No video available</p>
-                        }
-
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Exercise.BodyPart.BodyPart)
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-</div>
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.Exercise.ExerciseName)</td>
+                        <td>
+                            <!-- YouTube video iframe -->
+                            @if (!string.IsNullOrEmpty(item.Exercise.VideoUrl))
+                            {
+                                <iframe src="@item.Exercise.VideoUrl" frameborder="0" allowfullscreen></iframe>
+                            }
+                            else
+                            {
+                                <p>No video available</p>
+                            }
+                        </td>
+                        <td> <!-- Lägg till knappen här -->
+                            <a asp-controller="Exercise" asp-action="Details" asp-route-id="@item.Exercise.Id">Details</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
 
 <div>
     <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Go Back</a>
 </div>

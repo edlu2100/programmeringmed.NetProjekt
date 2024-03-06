@@ -9,57 +9,138 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+<!-- HTML-kod för modal -->
+<div id="myModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Markera träningspass som avklarad</h2>
+        <form id="lengthForm" asp-action="MarkCompletedWithLength">
+            <input type="hidden" id="workoutId" name="workoutId" />
+            <div class="form-group">
+                <label for="length">Längd på passet (minuter):</label>
+                <input type="number" class="form-control" id="length" name="length" />
+            </div>
+            <div class="form-group">
+                <label for="rating">Rating:</label>
+                <span>Min</span>
+                <input type="range" min="1" max="5" value="3" class="slider" id="rating" name="rating" />
+                <span>Max</span>
+            </div>
+            <div class="form-group">
+                <label for="comment">Kommentar:</label>
+                <textarea class="form-control" id="comment" name="comment"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Markera som avklarad</button>
+        </form>
+    </div>
+</div>
+
+
+<!-- Tabell för kommande pass -->
+<h2>Kommande pass</h2>
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.WorkoutName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Date)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Completed)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.BodyPart)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ExerciseForm)
-            </th>
+            <!-- Tabellhuvud -->
+            <th>Beskrivning</th>
+            <th>Datum för träningspass</th>
+            <th>Muskelgrupp</th>
+            <th>Typ av träning</th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.WorkoutName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Date)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Completed)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.BodyPart.BodyPart)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ExerciseForm.ExerciseForm)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model.Where(m => !m.Completed))
+        {
+            <!-- Tabellrader -->
+            <tr>
+                <!-- Tabellceller -->
+                <td>@Html.DisplayFor(modelItem => item.Description)</td>
+                <td>@Html.DisplayFor(modelItem => item.Date)</td>
+                <td>@Html.DisplayFor(modelItem => item.BodyPart.BodyPart)</td>
+                <td>@Html.DisplayFor(modelItem => item.ExerciseForm.ExerciseForm)</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    <button class="btn btn-primary mark-completed-btn" data-id="@item.Id">Markera som avklarad</button>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+
+<!-- Tabell för slutförda pass -->
+<h2>Slutförda pass</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <!-- Tabellhuvud -->
+
+            <th>Beskrivning</th>
+            <th>Datum för träningspass</th>
+            <th>Längd (min)</th>
+            <th>Rating</th>
+            <th>Kommentar</th>
+            <th>Muskelgrupp</th>
+            <th>Typ av träning</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Where(m => m.Completed))
+        {
+            <!-- Tabellrader -->
+            <tr>
+                <!-- Tabellceller -->
+                <td>@Html.DisplayFor(modelItem => item.Description)</td>
+                <td>@Html.DisplayFor(modelItem => item.Date)</td>
+                <td>@Html.DisplayFor(modelItem => item.Length)</td>
+                <td>@Html.DisplayFor(modelItem => item.Rating)</td>
+                <td>@Html.DisplayFor(modelItem => item.Comment)</td>
+                <td>@Html.DisplayFor(modelItem => item.BodyPart.BodyPart)</td>
+                <td>@Html.DisplayFor(modelItem => item.ExerciseForm.ExerciseForm)</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<!-- JavaScript för att hantera popuprutan -->
+@section Scripts {
+    <script>
+        // Hämta modal-elementet
+        var modal = document.getElementById("myModal");
+
+        // Hämta knappen som öppnar modalen
+        var btn = document.getElementsByClassName("mark-completed-btn");
+
+        // Hämta span-elementet som stänger modalen
+        var span = document.getElementsByClassName("close")[0];
+
+        // När användaren klickar på knappen, öppna modalen
+        for (var i = 0; i < btn.length; i++) {
+            btn[i].onclick = function () {
+                var workoutId = this.getAttribute("data-id");
+                document.getElementById("workoutId").value = workoutId;
+                modal.style.display = "block";
+            }
+        }
+
+        // När användaren klickar på <span> (x), stäng modalen
+        span.onclick = function () {
+            modal.style.display = "none";
+        }
+
+        // När användaren klickar utanför modalen, stäng den
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+}

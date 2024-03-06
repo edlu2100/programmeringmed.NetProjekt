@@ -1,0 +1,90 @@
+@model programmeringmed.NetProjekt.Models.SkiingModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>SkiingModel</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" asp-route-workoutId="@ViewData["WorkoutId"]">
+            <div asp-validation-summary=" ModelOnly" class="text-danger">
+            </div>
+            <input type="hidden" asp-for="WorkoutId" value="@ViewData["WorkoutId"]" />
+            <div class="form-group">
+                <label asp-for="Location" class="control-label"></label>
+                <input asp-for="Location" class="form-control" />
+                <span asp-validation-for="Location" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Organization" class="control-label"></label>
+                <select asp-for="Organization" asp-items="ViewBag.OrganizationId" class="form-control"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="DisciplineId" class="control-label"></label>
+                <select asp-for="DisciplineId" class="form-control" asp-items="ViewBag.DisciplineId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="MethodId" class="control-label"></label>
+                <select asp-for="MethodId" class="form-control" asp-items="ViewBag.MethodId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="FocusId" class="control-label"></label>
+                <select asp-for="FocusId" class="form-control" asp-items="ViewBag.FocusId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="TurnsPerRun" class="control-label"></label>
+                <input asp-for="TurnsPerRun" class="form-control" />
+                <span asp-validation-for="TurnsPerRun" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="GateDistance" class="control-label"></label>
+                <input asp-for="GateDistance" class="form-control" />
+                <span asp-validation-for="GateDistance" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Freeruns" class="control-label"></label>
+                <input asp-for="Freeruns" class="form-control" />
+                <span asp-validation-for="Freeruns" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Runs" class="control-label"></label>
+                <input asp-for="Runs" class="form-control" />
+                <span asp-validation-for="Runs" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CompletedRuns" class="control-label"></label>
+                <input asp-for="CompletedRuns" class="form-control" />
+                <span asp-validation-for="CompletedRuns" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ApproachToTask" class="control-label"></label>
+                <input asp-for="ApproachToTask" class="form-control" />
+                <span asp-validation-for="ApproachToTask" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Goal" class="control-label"></label>
+                <input asp-for="Goal" class="form-control" />
+                <span asp-validation-for="Goal" class="text-danger"></span>
+            </div>
+
+
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

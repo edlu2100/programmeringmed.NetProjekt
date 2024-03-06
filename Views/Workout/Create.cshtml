@@ -10,33 +10,35 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form id="createWorkoutForm" asp-action="Create">
+        <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Date" class="control-label">Datum för träningspass:</label>
-                <input asp-for="Date" class="form-control" />
-                <span asp-validation-for="Date" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="WorkoutName" class="control-label">Namn på träningspass:</label>
-                <input asp-for="WorkoutName" class="form-control" />
-                <span asp-validation-for="WorkoutName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label">Beskrivning av träningspass:</label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
             <div class="form-group">
                 <label asp-for="ExerciseFormId" class="control-label">Typ av träning:</label>
                 <select id="exerciseFormId" class="form-control" asp-for="ExerciseFormId"
                     asp-items="ViewBag.ExerciseFormId"></select>
             </div>
-            <div id="bodyPartDiv" class="form-group" style="display: none;">
-                <label asp-for="BodyPartId" class="control-label">Vilken kroppsdel:</label>
-                <select asp-for="BodyPartId" class="form-control" asp-items="ViewBag.BodyPartId">
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Date" class="control-label"></label>
+                <input asp-for="Date" class="form-control" />
+                <span asp-validation-for="Date" class="text-danger"></span>
+            </div>
 
-                </select>
+            <div id="lengthRatingDiv" class="form-group" style="display: none;">
+                <div class="form-group">
+                    <label asp-for="Length" class="control-label">Längd:</label>
+                    <input asp-for="Length" class="form-control" />
+                    <span asp-validation-for="Length" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Rating" class="control-label">Betyg:</label>
+                    <input asp-for="Rating" class="form-control" />
+                    <span asp-validation-for="Rating" class="text-danger"></span>
+                </div>
             </div>
 
             <div class="form-group">
@@ -54,15 +56,20 @@
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             var exerciseFormId = document.getElementById("exerciseFormId");
-            var bodyPartDiv = document.getElementById("bodyPartDiv");
+            var lengthRatingDiv = document.getElementById("lengthRatingDiv");
 
             exerciseFormId.addEventListener("change", function () {
                 var selectedValue = exerciseFormId.value;
-                if (selectedValue === "1") { // Assuming "1" corresponds to "Kondition"
-                    bodyPartDiv.style.display = "none";
-                    document.getElementById("BodyPartId").value = null;
-                } else if (selectedValue === "2") { // Assuming "2" corresponds to "Styrka"
-                    bodyPartDiv.style.display = "block";
+                if (selectedValue === "1") { // Kondition
+                    lengthRatingDiv.style.display = "none";
+                    document.getElementById("Length").value = null;
+                    document.getElementById("Rating").value = null;
+                } else if (selectedValue === "2") { // Gym (Styrka)
+                    lengthRatingDiv.style.display = "none";
+                    document.getElementById("Length").value = null;
+                    document.getElementById("Rating").value = null;
+                } else if (selectedValue === "3") { // Skidåkning
+                    lengthRatingDiv.style.display = "block";
                 }
             });
         });

@@ -64,6 +64,19 @@ namespace programmeringmed.NetProjekt.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Discipline",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    DisciplineName = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Discipline", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ExerciseForm",
                 columns: table => new
                 {
@@ -74,6 +87,45 @@ namespace programmeringmed.NetProjekt.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ExerciseForm", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Method",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    MethodName = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Method", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Organization",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    OrganizationName = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Organization", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SkiingFocus",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    FocusName = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SkiingFocus", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -209,12 +261,16 @@ namespace programmeringmed.NetProjekt.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    WorkoutName = table.Column<string>(type: "TEXT", nullable: false),
                     Description = table.Column<string>(type: "TEXT", nullable: false),
                     Date = table.Column<DateTime>(type: "TEXT", nullable: false),
                     Completed = table.Column<bool>(type: "INTEGER", nullable: false),
+                    Comment = table.Column<string>(type: "TEXT", nullable: true),
+                    Rating = table.Column<int>(type: "INTEGER", nullable: true),
+                    Length = table.Column<int>(type: "INTEGER", nullable: true),
+                    Username = table.Column<string>(type: "TEXT", nullable: true),
                     BodyPartId = table.Column<int>(type: "INTEGER", nullable: true),
-                    ExerciseFormId = table.Column<int>(type: "INTEGER", nullable: true)
+                    ExerciseFormId = table.Column<int>(type: "INTEGER", nullable: true),
+                    SkiingId = table.Column<int>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -229,6 +285,59 @@ namespace programmeringmed.NetProjekt.Migrations
                         column: x => x.ExerciseFormId,
                         principalTable: "ExerciseForm",
                         principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Skiing",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Location = table.Column<string>(type: "TEXT", nullable: true),
+                    OrganizationId = table.Column<int>(type: "INTEGER", nullable: true),
+                    DisciplineId = table.Column<int>(type: "INTEGER", nullable: false),
+                    MethodId = table.Column<int>(type: "INTEGER", nullable: false),
+                    FocusId = table.Column<int>(type: "INTEGER", nullable: true),
+                    TurnsPerRun = table.Column<int>(type: "INTEGER", nullable: true),
+                    GateDistance = table.Column<int>(type: "INTEGER", nullable: true),
+                    Freeruns = table.Column<int>(type: "INTEGER", nullable: true),
+                    Runs = table.Column<int>(type: "INTEGER", nullable: true),
+                    CompletedRuns = table.Column<int>(type: "INTEGER", nullable: true),
+                    ApproachToTask = table.Column<int>(type: "INTEGER", nullable: true),
+                    Goal = table.Column<string>(type: "TEXT", nullable: true),
+                    WorkoutId = table.Column<int>(type: "INTEGER", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Skiing", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Skiing_Discipline_DisciplineId",
+                        column: x => x.DisciplineId,
+                        principalTable: "Discipline",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Skiing_Method_MethodId",
+                        column: x => x.MethodId,
+                        principalTable: "Method",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Skiing_Organization_OrganizationId",
+                        column: x => x.OrganizationId,
+                        principalTable: "Organization",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Skiing_SkiingFocus_FocusId",
+                        column: x => x.FocusId,
+                        principalTable: "SkiingFocus",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Skiing_Workout_WorkoutId",
+                        column: x => x.WorkoutId,
+                        principalTable: "Workout",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -252,7 +361,8 @@ namespace programmeringmed.NetProjekt.Migrations
                         name: "FK_WorkoutExercise_Workout_WorkoutId",
                         column: x => x.WorkoutId,
                         principalTable: "Workout",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -298,6 +408,32 @@ namespace programmeringmed.NetProjekt.Migrations
                 column: "BodyPartId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Skiing_DisciplineId",
+                table: "Skiing",
+                column: "DisciplineId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Skiing_FocusId",
+                table: "Skiing",
+                column: "FocusId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Skiing_MethodId",
+                table: "Skiing",
+                column: "MethodId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Skiing_OrganizationId",
+                table: "Skiing",
+                column: "OrganizationId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Skiing_WorkoutId",
+                table: "Skiing",
+                column: "WorkoutId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Workout_BodyPartId",
                 table: "Workout",
                 column: "BodyPartId");
@@ -337,6 +473,9 @@ namespace programmeringmed.NetProjekt.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Skiing");
+
+            migrationBuilder.DropTable(
                 name: "WorkoutExercise");
 
             migrationBuilder.DropTable(
@@ -344,6 +483,18 @@ namespace programmeringmed.NetProjekt.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Discipline");
+
+            migrationBuilder.DropTable(
+                name: "Method");
+
+            migrationBuilder.DropTable(
+                name: "Organization");
+
+            migrationBuilder.DropTable(
+                name: "SkiingFocus");
 
             migrationBuilder.DropTable(
                 name: "Exercise");

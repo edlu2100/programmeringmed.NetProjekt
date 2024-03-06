@@ -228,6 +228,21 @@ namespace programmeringmed.NetProjekt.Migrations
                     b.ToTable("BodyPart");
                 });
 
+            modelBuilder.Entity("programmeringmed.NetProjekt.Models.DisciplineModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("DisciplineName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Discipline");
+                });
+
             modelBuilder.Entity("programmeringmed.NetProjekt.Models.ExerciseFormModel", b =>
                 {
                     b.Property<int>("Id")
@@ -271,6 +286,114 @@ namespace programmeringmed.NetProjekt.Migrations
                     b.ToTable("Exercise");
                 });
 
+            modelBuilder.Entity("programmeringmed.NetProjekt.Models.MethodModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("MethodName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Method");
+                });
+
+            modelBuilder.Entity("programmeringmed.NetProjekt.Models.OrganizationModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("OrganizationName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Organization");
+                });
+
+            modelBuilder.Entity("programmeringmed.NetProjekt.Models.SkiingFocusModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("FocusName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("SkiingFocus");
+                });
+
+            modelBuilder.Entity("programmeringmed.NetProjekt.Models.SkiingModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("ApproachToTask")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("CompletedRuns")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("DisciplineId")
+                        .IsRequired()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("FocusId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("Freeruns")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("GateDistance")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Goal")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Location")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("MethodId")
+                        .IsRequired()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("OrganizationId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("Runs")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("TurnsPerRun")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("WorkoutId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DisciplineId");
+
+                    b.HasIndex("FocusId");
+
+                    b.HasIndex("MethodId");
+
+                    b.HasIndex("OrganizationId");
+
+                    b.HasIndex("WorkoutId")
+                        .IsUnique();
+
+                    b.ToTable("Skiing");
+                });
+
             modelBuilder.Entity("programmeringmed.NetProjekt.Models.WorkoutExerciseModel", b =>
                 {
                     b.Property<int>("Id")
@@ -301,6 +424,9 @@ namespace programmeringmed.NetProjekt.Migrations
                     b.Property<int?>("BodyPartId")
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("Comment")
+                        .HasColumnType("TEXT");
+
                     b.Property<bool>("Completed")
                         .HasColumnType("INTEGER");
 
@@ -315,8 +441,16 @@ namespace programmeringmed.NetProjekt.Migrations
                     b.Property<int?>("ExerciseFormId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("WorkoutName")
-                        .IsRequired()
+                    b.Property<int?>("Length")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("Rating")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("SkiingId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Username")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -388,6 +522,44 @@ namespace programmeringmed.NetProjekt.Migrations
                     b.Navigation("BodyPart");
                 });
 
+            modelBuilder.Entity("programmeringmed.NetProjekt.Models.SkiingModel", b =>
+                {
+                    b.HasOne("programmeringmed.NetProjekt.Models.DisciplineModel", "Discipline")
+                        .WithMany("Skiing")
+                        .HasForeignKey("DisciplineId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("programmeringmed.NetProjekt.Models.SkiingFocusModel", "Focus")
+                        .WithMany("Skiing")
+                        .HasForeignKey("FocusId");
+
+                    b.HasOne("programmeringmed.NetProjekt.Models.MethodModel", "Method")
+                        .WithMany("Skiing")
+                        .HasForeignKey("MethodId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("programmeringmed.NetProjekt.Models.OrganizationModel", "Organization")
+                        .WithMany("Skiing")
+                        .HasForeignKey("OrganizationId");
+
+                    b.HasOne("programmeringmed.NetProjekt.Models.WorkoutModel", "Workout")
+                        .WithOne("Skiing")
+                        .HasForeignKey("programmeringmed.NetProjekt.Models.SkiingModel", "WorkoutId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.Navigation("Discipline");
+
+                    b.Navigation("Focus");
+
+                    b.Navigation("Method");
+
+                    b.Navigation("Organization");
+
+                    b.Navigation("Workout");
+                });
+
             modelBuilder.Entity("programmeringmed.NetProjekt.Models.WorkoutExerciseModel", b =>
                 {
                     b.HasOne("programmeringmed.NetProjekt.Models.ExerciseModel", "Exercise")
@@ -396,7 +568,8 @@ namespace programmeringmed.NetProjekt.Migrations
 
                     b.HasOne("programmeringmed.NetProjekt.Models.WorkoutModel", "Workout")
                         .WithMany("WorkoutExercises")
-                        .HasForeignKey("WorkoutId");
+                        .HasForeignKey("WorkoutId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Exercise");
 
@@ -425,6 +598,11 @@ namespace programmeringmed.NetProjekt.Migrations
                     b.Navigation("Workout");
                 });
 
+            modelBuilder.Entity("programmeringmed.NetProjekt.Models.DisciplineModel", b =>
+                {
+                    b.Navigation("Skiing");
+                });
+
             modelBuilder.Entity("programmeringmed.NetProjekt.Models.ExerciseFormModel", b =>
                 {
                     b.Navigation("Workout");
@@ -435,8 +613,25 @@ namespace programmeringmed.NetProjekt.Migrations
                     b.Navigation("WorkoutExercises");
                 });
 
+            modelBuilder.Entity("programmeringmed.NetProjekt.Models.MethodModel", b =>
+                {
+                    b.Navigation("Skiing");
+                });
+
+            modelBuilder.Entity("programmeringmed.NetProjekt.Models.OrganizationModel", b =>
+                {
+                    b.Navigation("Skiing");
+                });
+
+            modelBuilder.Entity("programmeringmed.NetProjekt.Models.SkiingFocusModel", b =>
+                {
+                    b.Navigation("Skiing");
+                });
+
             modelBuilder.Entity("programmeringmed.NetProjekt.Models.WorkoutModel", b =>
                 {
+                    b.Navigation("Skiing");
+
                     b.Navigation("WorkoutExercises");
                 });
 #pragma warning restore 612, 618

@@ -45,30 +45,29 @@ namespace programmeringmed.NetProjekt.Controllers
 
             return View(workoutExerciseModel);
         }
-
         // GET: WorkoutExercise/Create
         public IActionResult Create(int workoutId)
         {
             ViewData["ExerciseId"] = new SelectList(_context.Exercise, "Id", "ExerciseName");
-            ViewData["WorkoutId"] = workoutId;
+            ViewData["WorkoutId"] = workoutId; // Tilldela WorkoutId till ViewData
             return View();
         }
 
         // POST: WorkoutExercise/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,WorkoutId,ExerciseId")] WorkoutExerciseModel workoutExerciseModel)
+        public async Task<IActionResult> Create(int workoutId, [Bind("Id,ExerciseId")] WorkoutExerciseModel workoutExerciseModel)
         {
             if (ModelState.IsValid)
             {
+                workoutExerciseModel.WorkoutId = workoutId; // Tilldela workoutId från parameter till workoutExerciseModel
+
                 _context.Add(workoutExerciseModel);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Workout", new { id = workoutId }); // Redirect till detaljsidan för Workout
             }
             ViewData["ExerciseId"] = new SelectList(_context.Exercise, "Id", "ExerciseName", workoutExerciseModel.ExerciseId);
-            ViewData["WorkoutId"] = new SelectList(_context.Workout, "Id", "WorkoutName", workoutExerciseModel.WorkoutId);
+            ViewData["WorkoutId"] = workoutId; // Tilldela WorkoutId till ViewData
             return View(workoutExerciseModel);
         }
 

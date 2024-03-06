@@ -1,0 +1,107 @@
+@model IEnumerable<programmeringmed.NetProjekt.Models.SkiingModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Location)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Organization)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Discipline)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Method)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Focus)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TurnsPerRun)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GateDistance)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Freeruns)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Runs)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CompletedRuns)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ApproachToTask)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Goal)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Workout)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Location)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Organization.OrganizationName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Discipline.DisciplineName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Method.MethodName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Focus.FocusName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TurnsPerRun)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GateDistance)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Freeruns)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Runs)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CompletedRuns)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ApproachToTask)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Goal)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Workout.Description)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
