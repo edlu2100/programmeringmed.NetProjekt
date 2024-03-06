@@ -30,5 +30,9 @@ public class WorkoutModel
     public int? SkiingId { get; set; }
     public SkiingModel? Skiing { get; set; }
 
+        // Navigation property för en-till-en-relationen med SkiingModel
+    public int? ConditionId { get; set; }
+    public ConditionModel? Condition { get; set; }
+
 
 }

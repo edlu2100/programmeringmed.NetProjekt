@@ -5,7 +5,7 @@ using programmeringmed.NetProjekt.Models;
 
 namespace programmeringmed.NetProjekt.Data;
 
-public class ApplicationDbContext : IdentityDbContext
+public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 {
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
@@ -21,6 +21,9 @@ public class ApplicationDbContext : IdentityDbContext
     public DbSet<MethodModel> Method { get; set; }
     public DbSet<SkiingFocusModel> SkiingFocus { get; set; }
     public DbSet<OrganizationModel> Organization { get; set; }
+    public DbSet<ConditionFormModel> ConditionForm { get; set; }
+    public DbSet<ConditionModel> Condition { get; set; }
+    public DbSet<ConditionTypeModel> ConditionType { get; set; }
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -40,6 +43,15 @@ public class ApplicationDbContext : IdentityDbContext
             .HasOne(w => w.Skiing)
             .WithOne(s => s.Workout)
             .HasForeignKey<SkiingModel>(s => s.WorkoutId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        // Ställ in borttagningsregeln till kaskad
+        // Ställ in borttagningsregeln till kaskad
+        // Definiera relationen mellan WorkoutModel och conditionModel
+        modelBuilder.Entity<WorkoutModel>()
+            .HasOne(w => w.Condition)
+            .WithOne(s => s.Workout)
+            .HasForeignKey<ConditionModel>(s => s.WorkoutId)
             .OnDelete(DeleteBehavior.Cascade); // Ställ in borttagningsregeln till kaskad
     }
 }
