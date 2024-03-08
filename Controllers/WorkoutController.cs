@@ -89,7 +89,7 @@ namespace programmeringmed.NetProjekt.Controllers
                 // Omdirigera beroende på vilken typ av träning som valdes
                 if (workoutModel.ExerciseFormId == 1) // Om "Kondition" är valt
                 {
-                    return RedirectToAction("Index", "Workout"); // Redirect till index för Workout
+                    return RedirectToAction("Index", "Workout", new { workoutId = workoutModel.Id }); // Redirect till index för Workout
                 }
                 else if (workoutModel.ExerciseFormId == 2) // Om "Gym" är valt
                 {
@@ -130,7 +130,7 @@ namespace programmeringmed.NetProjekt.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Description,Date,Completed,Comment,Rating,Length,Username,BodyPartId,ExerciseFormId,SkiingId")] WorkoutModel workoutModel)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Description,Date,Completed,Comment,Rating,Length,Username,BodyPartId,ExerciseFormId,SkiingId, ConditionId")] WorkoutModel workoutModel)
         {
             if (id != workoutModel.Id)
             {

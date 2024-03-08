@@ -8,33 +8,36 @@
 
 <h4>ExerciseModel</h4>
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="ExerciseName" class="control-label"></label>
-                <input asp-for="ExerciseName" class="form-control" />
-                <span asp-validation-for="ExerciseName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="VideoUrl" class="control-label"></label>
-                <input asp-for="VideoUrl" class="form-control" />
-                <span asp-validation-for="VideoUrl" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="BodyPartId" class="control-label"></label>
-                <select asp-for="BodyPartId" class ="form-control" asp-items="ViewBag.BodyPartId"></select>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+<div class="container">
+    <div class="row">
+        <div class="col-md-4 mx-auto">
+            <form asp-action="Create" class="divinput">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="ExerciseName" class="control-label">Exercise Name</label>
+                    <input asp-for="ExerciseName" class="form-control" />
+                    <span asp-validation-for="ExerciseName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Description" class="control-label">Description</label>
+                    <textarea rows="4" asp-for="Description"
+                        style="background-color: #1d2530; border: 1px solid #93B1A6;" class="form-control"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="VideoUrl" class="control-label">Video Url</label>
+                    <input asp-for="VideoUrl" class="form-control" />
+                    <span asp-validation-for="VideoUrl" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="BodyPartId" class="control-label">Body Part</label>
+                    <select asp-for="BodyPartId" class="form-control" asp-items="ViewBag.BodyPartId"></select>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 
@@ -43,5 +46,7 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

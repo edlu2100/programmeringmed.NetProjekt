@@ -11,75 +11,127 @@
 </head>
 
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home"
-                    asp-action="Index">programmeringmed.NetProjekt</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse"
-                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="BodyPart"
-                                asp-action="Index">BodyPart</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="ExerciseForm"
-                                asp-action="Index">ExerciseForm</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Workout"
-                                asp-action="Index">Workout</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="WorkoutExercise"
-                                asp-action="Index">WorkoutExercise</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Exercise"
-                                asp-action="Index">Exercise</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Discipline"
-                                asp-action="Index">Discipline</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Method"
-                                asp-action="Index">Method</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Skiing"
-                                asp-action="Index">Skiing</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="SkiingFocus"
-                                asp-action="Index">SkiingFocus</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Organization"
-                                asp-action="Index">Organization</a>
-                        </li>
-                    </ul>
-                    <partial name="_LoginPartial" />
-                </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
+    <div>
+        <nav class="desktop">
+            <img class="logo" src="/Images/logo2.svg" alt="">
+            <ul>
 
-    <footer class="border-top footer text-muted">
+                <li>
+                    <img src="/Images/homev.png" alt="">
+                    <a class="" asp-area="" asp-controller="BodyPart" asp-action="Index">Home</a>
+                </li>
+                <li>
+                    <img src="/Images/activityv.png" alt="">
+                    <a class="" asp-area="" asp-controller="Workout" asp-action="Index">Activity</a>
+                </li>
+                <li>
+                    <img src="/Images/plusv.png" alt="">
+                    <a class="" asp-area="" asp-controller="Workout" asp-action="Create">Add Data</a>
+                </li>
+                <li>
+                    <img src="/Images/graphv.png" alt="">
+                    <a class="" asp-area="" asp-controller="Workout" asp-action="Index">Dashboard</a>
+                </li>
+                <li>
+                    <img src="/Images/settingsv.png" alt="">
+                    <a class="" asp-area="" asp-controller="Workout" asp-action="Index">Settings</a>
+                </li>
+
+            </ul>
+
+        </nav>
+        <header>
+            <nav class="mobile">
+
+                <ul>
+                    <li>
+                        <img src="/Images/home.png" alt="">
+                        <a class="" asp-area="" asp-controller="BodyPart" asp-action="Index">Home</a>
+                    </li>
+                    <li>
+                        <img src="/Images/activity.png" alt="">
+                        <a class="" asp-area="" asp-controller="Workout" asp-action="Index">Activity</a>
+                    </li>
+                    <li>
+                        <img src="/Images/plus.png" alt="">
+                        <a class="" asp-area="" asp-controller="Workout" asp-action="Create">Add Data</a>
+                    </li>
+                    <li>
+                        <img src="/Images/graph.png" alt="">
+                        <a class="" asp-area="" asp-controller="Workout" asp-action="Index">Dashboard</a>
+                    </li>
+                    <li>
+                        <img src="/Images/settings.png" alt="">
+                        <a class="" asp-area="" asp-controller="Workout" asp-action="Index">Settings</a>
+                    </li>
+
+                </ul>
+
+
+            </nav>
+
+        </header>
         <div class="container">
-            &copy; 2024 - programmeringmed.NetProjekt - <a asp-area="" asp-controller="Home"
-                asp-action="Privacy">Privacy</a>
+            <main role="main" class="pb-3">
+                @RenderBody()
+            </main>
         </div>
+    </div>
+    <footer>
+        <ul>
+
+            <li>
+
+                <a class="" asp-area="" asp-controller="BodyPart" asp-action="Index">BodyPart</a>
+            </li>
+            <li>
+
+                <a class="" asp-area="" asp-controller="ConditionForm" asp-action="Index">ConditionForm</a>
+            </li>
+            <li>
+
+                <a class="" asp-area="" asp-controller="Condition" asp-action="Index">Condition</a>
+            </li>
+            <li>
+
+                <a class="" asp-area="" asp-controller="ConditionType" asp-action="Index">ConditionType</a>
+            </li>
+            <li>
+
+                <a class="" asp-area="" asp-controller="Discipline" asp-action="Index">Discipline</a>
+            </li>
+            <li>
+
+                <a class="" asp-area="" asp-controller="ExerciseForm" asp-action="Index">ExerciseForm</a>
+            </li>
+            <li>
+                <a class="" asp-area="" asp-controller="Exercise" asp-action="Index">Exercise</a>
+            </li>
+            <li>
+                <a class="" asp-area="" asp-controller="Method" asp-action="Index">Method</a>
+            </li>
+            <li>
+                <a class="" asp-area="" asp-controller="Organization" asp-action="Index">Organization</a>
+            </li>
+            <li>
+                <a class="" asp-area="" asp-controller="SkiingFocus" asp-action="Index">SkiingFocus</a>
+            </li>
+                        <li>
+                <a class="" asp-area="" asp-controller="Skiing" asp-action="Index">Skiing</a>
+            </li>
+                        <li>
+                <a class="" asp-area="" asp-controller="WorkoutExercise" asp-action="Index">WorkoutExercise</a>
+            </li>
+                        <li>
+                <a class="" asp-area="" asp-controller="Workout" asp-action="Index">Workout</a>
+            </li>
+
+
+        </ul>
+
+      <p class="center">&copy; Copyright 2024 - Design Edwin Lundbäck</p>
     </footer>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

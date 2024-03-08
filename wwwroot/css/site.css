@@ -1,11 +1,136 @@
+:root {
+    --primary: #1d2530;
+    --accent: #93B1A6;
+    --secondary: #203d5c;
+    --third: #4caf50;
+}
+
+
+/* Återställ standardinställningar */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 html {
+    position: relative;
+    min-height: 100%;
     font-size: 14px;
+}
+
+a {
+    color: white;
+    text-decoration: none;
+}
+
+.logo {
+    margin-left: 1.5em;
+    width: 200px;
+}
+
+a:hover {
+    color: var(--accent);
+}
+
+body {
+    margin-bottom: 60px;
+    font-family: Arial, sans-serif;
+    overflow-x: hidden;
+    background-color: var(--primary);
+    color: rgb(227, 227, 227);
 }
 
 @media (min-width: 768px) {
     html {
         font-size: 16px;
     }
+}
+
+.meny {
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+header {
+    position: fixed;
+    /* Gör headern fast på skärmen */
+    bottom: 0;
+    /* Placera headern längst ner */
+    width: 100%;
+    /* Bredden på headern ska vara 100% av förälderelementet */
+    z-index: 999;
+    /* Sätt ett högt z-index för att headern ska ligga över innehållet */
+}
+
+.desktop {
+    padding: 1em;
+    display: flex;
+    flex-direction: row;
+    background-color: var(--secondary);
+    justify-content: space-between;
+}
+
+.desktop ul {
+    margin-top: 1em;
+    display: flex;
+    flex-direction: row;
+    gap: 1.5em;
+}
+
+.desktop ul li {
+    list-style: none;
+}
+
+.desktop ul li a {
+    text-decoration: none;
+    color: white;
+}
+
+.desktop ul li a:hover {
+    color: var(--accent);
+}
+
+.desktop ul li img {
+    margin-bottom: 3px;
+}
+
+.mobile {
+    background-color: var(--accent);
+    width: 100%;
+}
+
+.mobile ul {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.mobile ul li {
+    display: flex;
+    flex-direction: column;
+    padding: 1em 0 1em 0;
+    color: white;
+    width: 100px;
+}
+
+.mobile ul li a {
+    color: white;
+    text-decoration: none;
+    text-align: center;
+}
+
+.mobile ul li img {
+    width: 20px;
+    margin-inline: auto;
+}
+
+.mobile ul li a:active {
+    text-decoration: underline;
 }
 
 .btn:focus,
@@ -16,13 +141,104 @@ html {
     box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
-html {
-    position: relative;
-    min-height: 100%;
+.desktop {
+    display: none;
 }
 
-body {
-    margin-bottom: 60px;
+@media screen and (min-width: 768px) {
+    .desktop {
+        display: flex;
+    }
+    .mobile {
+        display: none;
+    }
+}
+
+.divinput {
+    background-color: var(--secondary);
+    padding: 1em;
+    border-radius: 8px;
+}
+
+.divinput h1 {
+    border-bottom: 2px solid var(--primary);
+}
+
+form {
+    display: block;
+    margin-inline: auto;
+}
+
+input[type=text],
+input[type=number],
+.form-group select,
+.form-group input[type="text"],
+.form-group input[type=url] {
+    background-color: var(--primary);
+    border: 1px solid var(--accent);
+    color: white;
+}
+
+input[type=submit] {
+    width: 100%;
+    margin-top: 1em;
+    background-color: var(--third);
+    padding: 0.5em;
+    border: #1d2530;
+}
+
+input[type=submit]:hover {
+    background-color: var(--third);
+    opacity: 0.7;
+}
+
+.form-group {
+    margin-bottom: 1em;
+}
+
+.form-control:focus,
+.form-check-input:focus {
+    outline: none;
+    /* Ta bort den blå ramen som visas som standard i vissa webbläsare */
+    border-color: var(--accent);
+    background-color: var(--primary);
+    color: white;
+    /* Ändra färgen på fokusramen */
+    box-shadow: var(--accent);
+    /* Ta bort eventuell skugga som tidigare har lagts till */
+}
+
+input[type=text]:hover,
+input[type=number]:hover,
+.form-group input[type=url]:hover,
+.form-group select:hover,
+.form-group input[type="text"]:hover {
+    opacity: 0.7;
+    /* Ändra bakgrundsfärgen när musen hovrar över fältet */
+}
+
+
+/* Apply the same styles to textarea as input fields */
+
+textarea {
+    background-color: var(--primary);
+    border: 1px solid var(--accent);
+    color: white;
+}
+
+
+/* Apply hover effect to textarea */
+
+textarea:hover {
+    opacity: 0.7;
+}
+
+.container {
+    padding: 1em;
+    margin: 4em;
+    width: 92%;
+    min-height: 90vh;
+    margin-inline: auto;
 }
 
 
@@ -85,7 +301,7 @@ body {
     width: 100%;
     height: 15px;
     border-radius: 5px;
-    background: #d3d3d3;
+    background: white;
     outline: none;
     opacity: 0.7;
     -webkit-transition: .2s;
@@ -102,7 +318,7 @@ body {
     width: 25px;
     height: 25px;
     border-radius: 50%;
-    background: #4caf50;
+    background: var(--third);
     cursor: pointer;
 }
 
@@ -110,6 +326,47 @@ body {
     width: 25px;
     height: 25px;
     border-radius: 50%;
-    background: #4caf50;
+    background: var(--third);
     cursor: pointer;
+}
+
+.Minmax {
+    display: flex;
+    justify-content: space-between;
+    color: var(--accent);
+}
+
+th,
+td {
+    color: white;
+}
+
+.center {
+    text-align: center;
+}
+
+footer {
+    display: hidden;
+}
+
+@media screen and (min-widht: 768) {
+    footer {
+        display: block;
+    }
+}
+
+.flex {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.createBtn {
+    background-color: var(--third);
+    border-radius: 5px;
+    padding: 1em;
+}
+
+.createBtn:hover {
+    opacity: 0.7;
 }

@@ -1,4 +1,4 @@
-@model programmeringmed.NetProjekt.Models.SkiingFocusModel
+@model programmeringmed.NetProjekt.Models.ConditionTypeModel
 
 @{
     ViewData["Title"] = "Create";
@@ -6,16 +6,16 @@
 
 <h1>Create</h1>
 
-<h4>SkiingFocusModel</h4>
+<h4>ConditionTypeModel</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create" class="divinput">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="FocusName" class="control-label"></label>
-                <input asp-for="FocusName" class="form-control" />
-                <span asp-validation-for="FocusName" class="text-danger"></span>
+                <label asp-for="ConditionType" class="control-label"></label>
+                <input asp-for="ConditionType" class="form-control" />
+                <span asp-validation-for="ConditionType" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
