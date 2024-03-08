@@ -11,7 +11,6 @@ using programmeringmed.NetProjekt.Models;
 
 namespace programmeringmed.NetProjekt.Controllers
 {
-    [Authorize]
     public class WorkoutController : Controller
     {
         private readonly ApplicationDbContext _context;
