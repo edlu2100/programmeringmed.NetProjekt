@@ -13,7 +13,7 @@
 <body>
     <div>
         <nav class="desktop">
-            <img class="logo" src="/Images/logo2.svg" alt="">
+            <img class="logo" src="/Images/logo2.svg" alt=""> 
             <ul>
 
                 <li>
@@ -36,6 +36,7 @@
                     <img src="/Images/settingsv.png" alt="">
                     <a class="" asp-area="" asp-controller="Workout" asp-action="Index">Settings</a>
                 </li>
+                <li> <partial name="_LoginPartial" /></li>
 
             </ul>
 
@@ -64,7 +65,9 @@
                         <img src="/Images/settings.png" alt="">
                         <a class="" asp-area="" asp-controller="Workout" asp-action="Index">Settings</a>
                     </li>
-
+                    <li>
+                        <partial name="_LoginPartial" />
+                    </li>
                 </ul>
 
 
@@ -116,20 +119,23 @@
             <li>
                 <a class="" asp-area="" asp-controller="SkiingFocus" asp-action="Index">SkiingFocus</a>
             </li>
-                        <li>
+            <li>
                 <a class="" asp-area="" asp-controller="Skiing" asp-action="Index">Skiing</a>
             </li>
-                        <li>
+            <li>
                 <a class="" asp-area="" asp-controller="WorkoutExercise" asp-action="Index">WorkoutExercise</a>
             </li>
-                        <li>
+            <li>
                 <a class="" asp-area="" asp-controller="Workout" asp-action="Index">Workout</a>
+            </li>
+            <li>
+                <partial name="_LoginPartial" />
             </li>
 
 
         </ul>
 
-      <p class="center">&copy; Copyright 2024 - Design Edwin Lundbäck</p>
+        <p class="center">&copy; Copyright 2024 - Design Edwin Lundbäck</p>
     </footer>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
