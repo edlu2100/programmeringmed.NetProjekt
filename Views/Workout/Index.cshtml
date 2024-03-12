@@ -4,87 +4,88 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+<div class="flex">
+    <h1>Workouts</h1>
+    <div class="mt-2">
+        <a class="createBtn " asp-action="Create">Create New</a>
+    </div>
+</div>
+<hr>
 <!-- HTML-kod för modal -->
 <div id="myModal" class="modal">
     <div class="modal-content">
         <span class="close">&times;</span>
-        <h2>Markera träningspass som avklarad</h2>
+        <h2>Mark session as completed</h2>
         <form id="lengthForm" asp-action="MarkCompletedWithLength">
             <input type="hidden" id="workoutId" name="workoutId" />
             <div class="form-group">
-                <label for="length">Längd på passet (minuter):</label>
+                <label for="length">Lenght of session (minutes)</label>
                 <input type="number" class="form-control" id="length" name="length" />
             </div>
             <div class="form-group">
-                <label for="rating">Rating:</label>
-                <span>Min</span>
+                <label for="rating">Rating</label>
+                <div class="Minmax">
+                    <span>Min</span>
+                    <span>Max</span>
+                </div>
                 <input type="range" min="1" max="5" value="3" class="slider" id="rating" name="rating" />
-                <span>Max</span>
+
             </div>
             <div class="form-group">
-                <label for="comment">Kommentar:</label>
+                <label for="comment">Comment</label>
                 <textarea class="form-control" id="comment" name="comment"></textarea>
             </div>
-            <button type="submit" class="btn btn-primary">Markera som avklarad</button>
+            <button type="submit" class="createBtn">Mark as completed</button>
         </form>
     </div>
 </div>
 
 
 <!-- Tabell för kommande pass -->
-<h2>Kommande pass</h2>
-<table class="table">
+<h2 class="mt-4">Comming sessions</h2>
+@if (Model.Any(m => !m.Completed))
+{
+    <table class="table">
     <thead>
         <tr>
             <!-- Tabellhuvud -->
-            <th>Beskrivning</th>
-            <th>Datum för träningspass</th>
-            <th>Muskelgrupp</th>
-            <th>Typ av träning</th>
-            <th></th>
+            <th>Date for session</th>
+            <th>Type of training</th>
+            <th class="deletedetails">Mark as completed</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model.Where(m => !m.Completed))
-        {
-            <!-- Tabellrader -->
-            <tr>
-                <!-- Tabellceller -->
-                <td>@Html.DisplayFor(modelItem => item.Description)</td>
-                <td>@Html.DisplayFor(modelItem => item.Date)</td>
-                <td>@Html.DisplayFor(modelItem => item.BodyPart.BodyPart)</td>
-                <td>@Html.DisplayFor(modelItem => item.ExerciseForm.ExerciseForm)</td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                    <button class="btn btn-primary mark-completed-btn" data-id="@item.Id">Markera som avklarad</button>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+            {
+                <tr>
+                    <!-- Hela tabellraden är nu en länk -->
+                    <!-- Tabellceller -->
+                    <td>@Html.DisplayFor(modelItem => item.Date)</td>
+                    <td>@Html.DisplayFor(modelItem => item.ExerciseForm.ExerciseForm)</td>
+                    <td class="deletedetails">
+                        <a asp-action="Details" asp-route-id="@item.Id" class="detailsBtn">Details</a>
+                        <img src="/Images/check.png" class="mark-completed-btn" data-id="@item.Id" alt="">
+                    </td>
+                    <!-- Visa BodyPartId endast när ExerciseForm är "Gym" -->
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No upcoming sessions</p>
+}
 
 <!-- Tabell för slutförda pass -->
-<h2>Slutförda pass</h2>
+<h2>Completed sessions</h2>
 <table class="table">
     <thead>
         <tr>
             <!-- Tabellhuvud -->
-
-            <th>Beskrivning</th>
-            <th>Datum för träningspass</th>
-            <th>Längd (min)</th>
-            <th>Rating</th>
-            <th>Kommentar</th>
-            <th>Muskelgrupp</th>
-            <th>Typ av träning</th>
-            <th></th>
+            <th>Date for session</th>
+            <th>Type of training</th>
+            <th class="deletedetails">Details</th>
         </tr>
     </thead>
     <tbody>
@@ -93,17 +94,10 @@
             <!-- Tabellrader -->
             <tr>
                 <!-- Tabellceller -->
-                <td>@Html.DisplayFor(modelItem => item.Description)</td>
                 <td>@Html.DisplayFor(modelItem => item.Date)</td>
-                <td>@Html.DisplayFor(modelItem => item.Length)</td>
-                <td>@Html.DisplayFor(modelItem => item.Rating)</td>
-                <td>@Html.DisplayFor(modelItem => item.Comment)</td>
-                <td>@Html.DisplayFor(modelItem => item.BodyPart.BodyPart)</td>
                 <td>@Html.DisplayFor(modelItem => item.ExerciseForm.ExerciseForm)</td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <td class="deletedetails">
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a>
                 </td>
             </tr>
         }

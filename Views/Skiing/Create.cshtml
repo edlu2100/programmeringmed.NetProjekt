@@ -4,12 +4,13 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Create skiingsession</h1>
+<div class="w">
+    <h1>Create skiingsession</h1>
 
 
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-6 mx-auto">
         <form asp-action="Create" asp-route-workoutId="@ViewData["WorkoutId"]" class="divinput">
             <div asp-validation-summary=" ModelOnly" class="text-danger">
             </div>
@@ -20,8 +21,8 @@
                 <span asp-validation-for="Location" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Organization" class="control-label">Organization</label>
-                <select asp-for="Organization" asp-items="ViewBag.OrganizationId" class="form-control"></select>
+                <label asp-for="OrganizationId" class="control-label">Organization</label>
+                <select asp-for="OrganizationId" asp-items="ViewBag.OrganizationId" class="form-control"></select>
             </div>
             <div class="form-group">
                 <label asp-for="DisciplineId" class="control-label">Discipline</label>
@@ -84,11 +85,15 @@
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
+                <div class="mt-2 d-flex align-items-center">
+            <a asp-action="Index" class="d-flex align-items-center">
+                <img class="mx-2" src="/Images/arrow.png" alt="">
+                <span>Go Back</span>
+            </a>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {

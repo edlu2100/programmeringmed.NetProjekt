@@ -3,16 +3,10 @@
 @inject UserManager<ApplicationUser> UserManager
 
 
-@if (SignInManager.IsSignedIn(User))
-{
-}
-else
-{
-    <li class="">
-        <a class="" asp-area="Identity" asp-page="/Account/Register">Register</a>
-    </li>
-    <li class="nav-item">
-        <a class="" asp-area="Identity" asp-page="/Account/Login">Login</a>
-    </li>
-}
 
+<li class="">
+    <a class="" asp-area="Identity" asp-page="/Account/Register">Register</a>
+</li>
+<li class="">
+    <a class="" asp-area="Identity" asp-page="/Account/Login">Login</a>
+</li>

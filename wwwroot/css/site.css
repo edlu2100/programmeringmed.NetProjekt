@@ -36,6 +36,10 @@ a {
     width: 200px;
 }
 
+.logo:hover {
+    opacity: 0.8;
+}
+
 a:hover {
     color: var(--accent);
 }
@@ -193,6 +197,23 @@ input[type=submit] {
     border: #1d2530;
 }
 
+input[type=email],
+input[type=password],
+.form-control:disabled,
+.form-control {
+    background-color: var(--primary);
+    border: 1px solid var(--accent);
+    color: white;
+}
+
+
+/* Apply hover effect to email and password fields */
+
+input[type=email]:hover,
+input[type=password]:hover {
+    opacity: 0.7;
+}
+
 input[type=submit]:hover {
     background-color: var(--third);
     opacity: 0.7;
@@ -247,6 +268,13 @@ textarea:hover {
     margin-inline: auto;
 }
 
+@media screen and (min-width: 768px) {
+    .container {
+        margin: 1.5em;
+        margin-inline: auto;
+    }
+}
+
 
 /* CSS för modal */
 
@@ -276,13 +304,40 @@ textarea:hover {
 /* Modalinnehåll */
 
 .modal-content {
-    background-color: #fefefe;
+    background-color: var(--secondary);
     margin: 5% auto;
     /* 5% från toppen och centrerat */
     padding: 20px;
     border: 1px solid #888;
     width: 30%;
     /* Ställ in bredden på modalfönstret */
+}
+
+
+/* Modalinnehåll för mobila enheter */
+
+@media screen and (max-width: 700px) {
+    .modal-content {
+        width: 90%;
+        /* Sätt bredden till 90% på mobila enheter */
+    }
+}
+
+
+/* Modalinnehåll för iPad och desktop */
+
+@media screen and (min-width: 700px) {
+    .modal-content {
+        background-color: var(--secondary);
+        margin: 5% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 35%;
+        /* Behåll bredden till 30% på iPad och desktop */
+    }
+    .modal-content h2 {
+        text-align: center;
+    }
 }
 
 
@@ -370,9 +425,32 @@ footer {
 .createBtn {
     background-color: var(--third);
     border-radius: 5px;
-    padding: 1em;
+    padding: 0.5em;
+    width: 100%;
 }
 
 .createBtn:hover {
     opacity: 0.7;
+}
+
+.mark-completed-btn:hover {
+    opacity: 0.7;
+    cursor: pointer;
+}
+
+.detailsBtn {
+    margin-right: 1.5em;
+}
+
+.deletedetails {
+    text-align: right;
+}
+
+.w {
+    width: 70%;
+    margin-inline: auto;
+}
+
+.deleteBtn {
+    max-width: 300px;
 }

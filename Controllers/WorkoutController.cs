@@ -11,6 +11,7 @@ using programmeringmed.NetProjekt.Models;
 
 namespace programmeringmed.NetProjekt.Controllers
 {
+    [Authorize]
     public class WorkoutController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -26,7 +27,6 @@ namespace programmeringmed.NetProjekt.Controllers
             var applicationDbContext = _context.Workout.Include(w => w.BodyPart).Include(w => w.ExerciseForm);
             return View(await applicationDbContext.ToListAsync());
         }
-
         // GET: Workout/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -38,13 +38,44 @@ namespace programmeringmed.NetProjekt.Controllers
             var workoutModel = await _context.Workout
                 .Include(w => w.WorkoutExercises)
                 .ThenInclude(we => we.Exercise) // inkludera övningarna
-                .Include(w => w.BodyPart)
-                .Include(w => w.ExerciseForm)
                 .FirstOrDefaultAsync(m => m.Id == id);
 
             if (workoutModel == null)
             {
                 return NotFound();
+            }
+
+            // Konditionsträning
+            if (workoutModel.ExerciseFormId == 1)
+            {
+                workoutModel = await _context.Workout
+                    .Include(w => w.WorkoutExercises)
+                    .ThenInclude(we => we.Exercise) // inkludera övningarna
+                    .Include(w => w.Condition) // inkludera kondition
+                    .FirstOrDefaultAsync(m => m.Id == id);
+            }
+            // Gymträning
+            else if (workoutModel.ExerciseFormId == 2)
+            {
+                workoutModel = await _context.Workout
+                    .Include(w => w.WorkoutExercises)
+                    .ThenInclude(we => we.Exercise) // inkludera övningarna
+                    .Include(w => w.BodyPart) // inkludera kroppsdel
+                    .FirstOrDefaultAsync(m => m.Id == id);
+            }
+            // Skidåkningsträning
+            else if (workoutModel.ExerciseFormId == 3)
+            {
+
+                workoutModel = await _context.Workout
+                    .Include(w => w.WorkoutExercises)
+                    .ThenInclude(we => we.Exercise) // inkludera övningarna
+                    .Include(w => w.Skiing) // inkludera skidåkning
+                    .Include(w => w.Skiing.Method) // inkludera metod
+                    .Include(w => w.Skiing.Focus) // inkludera fokus
+                    .Include(w => w.Skiing.Discipline) // inkludera disciplin
+                    .Include(w => w.Skiing.Organization) // inkludera organisation
+                    .FirstOrDefaultAsync(m => m.Id == id);
             }
 
             return View(workoutModel);
@@ -59,24 +90,25 @@ namespace programmeringmed.NetProjekt.Controllers
             return View();
         }
 
-        // POST: Workout/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Description,Date,BodyPartId,ExerciseFormId")] WorkoutModel workoutModel)
+        public async Task<IActionResult> Create([Bind("Id,Description,Date,BodyPartId,ExerciseFormId,Length,Rating,Comment")] WorkoutModel workoutModel)
         {
             if (ModelState.IsValid)
             {
                 if (workoutModel.ExerciseFormId == 1) // Om "Kondition" är valt
                 {
                     workoutModel.BodyPartId = null; // Sätt BodyPartId till null
+                    workoutModel.SkiingId = null; // Sätt BodyPartId till null
+                }
+                else if (workoutModel.ExerciseFormId == 2)//Om gym är valt
+                {
+                    workoutModel.SkiingId = null; // Sätt BodyPartId till null
                 }
                 else if (workoutModel.ExerciseFormId == 3) // Om "Skiing" är valt
                 {
                     workoutModel.Completed = true;
-
+                    workoutModel.BodyPartId = null; // Sätt BodyPartId till null
                 }
 
                 // Hämta användarnamnet från identitetsautentiseringen
@@ -88,7 +120,7 @@ namespace programmeringmed.NetProjekt.Controllers
                 // Omdirigera beroende på vilken typ av träning som valdes
                 if (workoutModel.ExerciseFormId == 1) // Om "Kondition" är valt
                 {
-                    return RedirectToAction("Index", "Workout", new { workoutId = workoutModel.Id }); // Redirect till index för Workout
+                    return RedirectToAction("Create", "Condition", new { workoutId = workoutModel.Id }); // Redirect till index för Workout
                 }
                 else if (workoutModel.ExerciseFormId == 2) // Om "Gym" är valt
                 {

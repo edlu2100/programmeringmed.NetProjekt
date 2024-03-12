@@ -2,14 +2,18 @@
 
 @{
     ViewData["Title"] = "Edit";
-}<h1>Edit</h1>
-<h1>Edit</h1>
+}
+<div class="w">
+    <h1>Edit session</h1>
 
-<h4>WorkoutModel</h4>
-<hr />
+    <hr />
+</div>
+
+
+
 <div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
+    <div class="col-md-4 mx-auto">
+        <form asp-action="Edit" class="divinput">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
             <input type="hidden" asp-for="ExerciseFormId" /> <!-- Hidden field for ExerciseForm -->
@@ -33,7 +37,8 @@
             <div class="form-group">
                 <label asp-for="Rating">Rating:</label>
                 <span>Min</span>
-                <input asp-for="Rating"  type="range" min="1" max="5" value="3" class="slider" id="rating" name="rating" />
+                <input asp-for="Rating" type="range" min="1" max="5" value="3" class="slider" id="rating"
+                    name="rating" />
                 <span>Max</span>
             </div>
             <div class="form-group">
@@ -58,12 +63,16 @@
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
+        <div class="mt-2 d-flex align-items-center">
+            <a asp-action="Index" class="d-flex align-items-center">
+                <img class="mx-2" src="/Images/arrow.png" alt="">
+                <span>Back to List</span>
+            </a>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+
 
 @section Scripts {
     <script>

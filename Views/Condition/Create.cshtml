@@ -9,21 +9,19 @@
 <h4>ConditionModel</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-4 mx-auto">
         <form asp-action="Create" class="divinput">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="ConditionTypeId" class="control-label"></label>
-                <select asp-for="ConditionTypeId" class ="form-control" asp-items="ViewBag.ConditionTypeId"></select>
+                <label asp-for="ConditionFormId" class="control-label">Type of Training</label>
+                <select asp-for="ConditionFormId" class="form-control" asp-items="ViewBag.ConditionFormId"></select>
             </div>
             <div class="form-group">
-                <label asp-for="ConditionFormId" class="control-label"></label>
-                <select asp-for="ConditionFormId" class ="form-control" asp-items="ViewBag.ConditionFormId"></select>
+                <label asp-for="ConditionTypeId" class="control-label">Intensity</label>
+                <select asp-for="ConditionTypeId" class="form-control" asp-items="ViewBag.ConditionTypeId"></select>
             </div>
-            <div class="form-group">
-                <label asp-for="WorkoutId" class="control-label"></label>
-                <select asp-for="WorkoutId" class ="form-control" asp-items="ViewBag.WorkoutId"></select>
-            </div>
+
+
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
@@ -36,5 +34,7 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

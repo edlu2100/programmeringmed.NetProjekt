@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+
+
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -13,62 +17,99 @@
 <body>
     <div>
         <nav class="desktop">
-            <img class="logo" src="/Images/logo2.svg" alt=""> 
-            <ul>
+            <a class="" asp-area="" asp-controller="BodyPart" asp-action="Index"> <img class="logo"
+                    src="/Images/logo2.svg" alt=""> </a>
+            @if (SignInManager.IsSignedIn(User))
+            {
 
-                <li>
-                    <img src="/Images/homev.png" alt="">
-                    <a class="" asp-area="" asp-controller="BodyPart" asp-action="Index">Home</a>
-                </li>
-                <li>
-                    <img src="/Images/activityv.png" alt="">
-                    <a class="" asp-area="" asp-controller="Workout" asp-action="Index">Activity</a>
-                </li>
-                <li>
-                    <img src="/Images/plusv.png" alt="">
-                    <a class="" asp-area="" asp-controller="Workout" asp-action="Create">Add Data</a>
-                </li>
-                <li>
-                    <img src="/Images/graphv.png" alt="">
-                    <a class="" asp-area="" asp-controller="Workout" asp-action="Index">Dashboard</a>
-                </li>
-                <li>
-                    <img src="/Images/settingsv.png" alt="">
-                    <a  class="" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Profile</a>
-                </li>
-                <li> <partial name="_LoginPartial" /></li>
+                <ul>
 
-            </ul>
+                    <li>
+                        <img src="/Images/homev.png" alt="">
+                        <a class="" asp-area="" asp-controller="BodyPart" asp-action="Index">Home</a>
+                    </li>
+                    <li>
+                        <img src="/Images/activityv.png" alt="">
+                        <a class="" asp-area="" asp-controller="Workout" asp-action="Index">Activity</a>
+                    </li>
+                    <li>
+                        <img src="/Images/plusv.png" alt="">
+                        <a class="" asp-area="" asp-controller="Workout" asp-action="Create">Add Data</a>
+                    </li>
+                    <li>
+                        <img src="/Images/graphv.png" alt="">
+                        <a class="" asp-area="" asp-controller="Workout" asp-action="Index">Dashboard</a>
+                    </li>
+                    <li>
+                        <img src="/Images/userv.png" alt="">
+                        <a class="" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Profile</a>
+                    </li>
+                </ul>
+            }
+            else
+            {
+                <!-- Användaren är utloggad -->
+                <ul>
+                    <li>
+                        <img src="/Images/settingsv.png" alt="">
+                        <a class="" asp-controller="Exercise" asp-action="ExerciseShow">Exercises</a>
+                    </li>
+                    <li class="">
+                        <a class="" asp-area="Identity" asp-page="/Account/Register">Register</a>
+                    </li>
+                    <li class="">
+                        <a class="" asp-area="Identity" asp-page="/Account/Login">Login</a>
+                    </li>
+                </ul>
+            }
+
+
+
+
 
         </nav>
         <header>
             <nav class="mobile">
+                @if (SignInManager.IsSignedIn(User))
+                {
+                    <ul>
+                        <li>
+                            <img src="/Images/home.png" alt="">
+                            <a class="" asp-area="" asp-controller="BodyPart" asp-action="Index">Home</a>
+                        </li>
+                        <li>
+                            <img src="/Images/activity.png" alt="">
+                            <a class="" asp-area="" asp-controller="Workout" asp-action="Index">Activity</a>
+                        </li>
+                        <li>
+                            <img src="/Images/plus.png" alt="">
+                            <a class="" asp-area="" asp-controller="Workout" asp-action="Create">Add Data</a>
+                        </li>
+                        <li>
+                            <img src="/Images/graph.png" alt="">
+                            <a class="" asp-area="" asp-controller="Workout" asp-action="Index">Dashboard</a>
+                        </li>
+                        <li>
+                            <img src="/Images/user.png" alt="">
+                            <a class="" asp-area="" asp-controller="Workout" asp-action="Index">Settings</a>
+                        </li>
+                    </ul>
+                }
+                else
+                {
+                    <ul>
+                        <li>
+                            <img src="/Images/user.png" alt="">
+                            <a class="" asp-controller="Exercise" asp-action="Index">Exercises</a>
+                        </li>
+                        <li>
+                            <partial name="_LoginPartial" />
+                        </li>
+                    </ul>
+                }
 
-                <ul>
-                    <li>
-                        <img src="/Images/home.png" alt="">
-                        <a class="" asp-area="" asp-controller="BodyPart" asp-action="Index">Home</a>
-                    </li>
-                    <li>
-                        <img src="/Images/activity.png" alt="">
-                        <a class="" asp-area="" asp-controller="Workout" asp-action="Index">Activity</a>
-                    </li>
-                    <li>
-                        <img src="/Images/plus.png" alt="">
-                        <a class="" asp-area="" asp-controller="Workout" asp-action="Create">Add Data</a>
-                    </li>
-                    <li>
-                        <img src="/Images/graph.png" alt="">
-                        <a class="" asp-area="" asp-controller="Workout" asp-action="Index">Dashboard</a>
-                    </li>
-                    <li>
-                        <img src="/Images/settings.png" alt="">
-                        <a class="" asp-area="" asp-controller="Workout" asp-action="Index">Settings</a>
-                    </li>
-                    <li>
-                        <partial name="_LoginPartial" />
-                    </li>
-                </ul>
+
+
 
 
             </nav>
