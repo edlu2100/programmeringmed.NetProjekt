@@ -55,7 +55,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model.Where(m => !m.Completed))
+        @foreach (var item in Model.OrderByDescending(m => m.Date).Where(m => !m.Completed && m.Username == User.Identity.Name))
             {
                 <tr>
                     <!-- Hela tabellraden är nu en länk -->
@@ -78,7 +78,7 @@ else
 }
 
 <!-- Tabell för slutförda pass -->
-<h2>Completed sessions</h2>
+<h2 class="mt-5">Completed sessions</h2>
 <table class="table">
     <thead>
         <tr>
@@ -89,7 +89,7 @@ else
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model.Where(m => m.Completed))
+        @foreach (var item in Model.OrderByDescending(m => m.Date).Where(m => m.Completed && m.Username == User.Identity.Name))
         {
             <!-- Tabellrader -->
             <tr>

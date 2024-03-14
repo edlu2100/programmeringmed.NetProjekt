@@ -4,11 +4,13 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+<div class="flex">
+    <h1>Workouts</h1>
+    <div class="mt-2">
+        <a class="createBtn " asp-action="Create">Create New</a>
+    </div>
+</div>
+<hr>
 <table class="table">
     <thead>
         <tr>

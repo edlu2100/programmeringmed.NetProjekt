@@ -4,31 +4,36 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
+<div class="w">
+    <h1>Add body part</h1>
 
-<h4>BodyPartModel</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group divinput">
-                <h1> <label asp-for="BodyPart" class="control-label"></label></h1>
-                <p>Vilken kroppsdel</p>
+    <hr />
+    <div class="row">
+        <div class="col-md-6 mx-auto mt-4">
+            <form asp-action="Create" class=divinput>
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group divinput">
+                    <label asp-for="BodyPart" class="control-label"></label>
 
-                <input asp-for="BodyPart" class="form-control" />
-                <span asp-validation-for="BodyPart" class="text-danger"></span>
+
+                    <input asp-for="BodyPart" class="form-control" />
+                    <span asp-validation-for="BodyPart" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            </form>
+            <div class="mt-2 d-flex align-items-center">
+                <a asp-action="Index" class="d-flex align-items-center">
+                    <img class="mx-2" src="/Images/arrow.png" alt="">
+                    <span>Go Back</span>
+                </a>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+
 
 @section Scripts {
     @{

@@ -3,31 +3,31 @@
 @{
     ViewData["Title"] = "Delete";
 }
-
+<div class="w">
 <h1>Delete</h1>
 
 <h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>WorkoutExerciseModel</h4>
+
+
     <hr />
     <dl class="row">
+
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Workout)
+            Exercise Name
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Workout.Description)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Exercise)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Exercise.Description)
+            @Html.DisplayFor(model => model.Exercise.ExerciseName)
         </dd>
     </dl>
     
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
+    <!-- Länk för att radera -->
+    <form asp-action="Delete" method="post">
+        <input type="hidden" name="id" value="@Model.Id" />
+        <button type="submit" class="btn btn-danger"
+                onclick="return confirm('Är du säker på att du vill radera denna övning?');">
+            Radera
+        </button>
+        <a asp-action="ListByWorkoutId" asp-route-workoutId="@Model.WorkoutId">Avbryt</a>
     </form>
+
 </div>

@@ -4,28 +4,31 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
-
-<h4>ConditionFormModel</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create" class="divinput">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="ConditionName" class="control-label"></label>
-                <input asp-for="ConditionName" class="form-control" />
-                <span asp-validation-for="ConditionName" class="text-danger"></span>
+<div class="w"> 
+    <h1>Create</h1>
+    <hr />
+    <div class="row">
+        <div class="col-md-6 mx-auto mt-4">
+            <form asp-action="Create" class="divinput">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="ConditionName" class="control-label"></label>
+                    <input asp-for="ConditionName" class="form-control" />
+                    <span asp-validation-for="ConditionName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            </form>
+            <div class="mt-2 d-flex align-items-center">
+                <a asp-action="Index" class="d-flex align-items-center">
+                    <img class="mx-2" src="/Images/arrow.png" alt="">
+                    <span>Go Back</span>
+                </a>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
-</div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {

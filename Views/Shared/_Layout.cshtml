@@ -17,7 +17,7 @@
 <body>
     <div>
         <nav class="desktop">
-            <a class="" asp-area="" asp-controller="BodyPart" asp-action="Index"> <img class="logo"
+            <a class="" asp-area="" asp-controller="Home" asp-action="Index"> <img class="logo"
                     src="/Images/logo2.svg" alt=""> </a>
             @if (SignInManager.IsSignedIn(User))
             {
@@ -26,7 +26,7 @@
 
                     <li>
                         <img src="/Images/homev.png" alt="">
-                        <a class="" asp-area="" asp-controller="BodyPart" asp-action="Index">Home</a>
+                        <a class="" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                     </li>
                     <li>
                         <img src="/Images/activityv.png" alt="">
@@ -75,7 +75,7 @@
                     <ul>
                         <li>
                             <img src="/Images/home.png" alt="">
-                            <a class="" asp-area="" asp-controller="BodyPart" asp-action="Index">Home</a>
+                            <a class="" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li>
                             <img src="/Images/activity.png" alt="">
@@ -91,7 +91,7 @@
                         </li>
                         <li>
                             <img src="/Images/user.png" alt="">
-                            <a class="" asp-area="" asp-controller="Workout" asp-action="Index">Settings</a>
+                            <a class="" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Profile</a>
                         </li>
                     </ul>
                 }
@@ -102,9 +102,8 @@
                             <img src="/Images/user.png" alt="">
                             <a class="" asp-controller="Exercise" asp-action="Index">Exercises</a>
                         </li>
-                        <li>
                             <partial name="_LoginPartial" />
-                        </li>
+
                     </ul>
                 }
 

@@ -1,0 +1,70 @@
+@model List<programmeringmed.NetProjekt.Models.WorkoutExerciseModel>
+
+@{
+    ViewData["Title"] = "Workout Exercises";
+}
+
+<div class="flex">
+    <h1>Workout Exercises</h1>
+    <div class="mt-2">
+        <a class="createBtn " asp-action="RedirectToCreate" asp-controller="WorkoutExercise" asp-route-workoutId="@ViewBag.WorkoutId">Add Exercise</a>
+
+    </div>
+</div>
+<hr>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Exercise
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Exercise.ExerciseName)
+                </td>
+                <td>
+                    @Html.ActionLink("Delete", "Delete", "WorkoutExercise", new { id = item.Id }, null)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $("#addNewExerciseLink").click(function () {
+                $("#addNewExerciseForm").toggle();
+            });
+
+            $("#newExerciseForm").submit(function (e) {
+                e.preventDefault();
+                var workoutId = $("#workoutId").val();
+                var exerciseName = $("#exerciseName").val();
+
+                $.ajax({
+                    type: "POST",
+                    url: "/WorkoutExercise/Create?workoutId=" + workoutId,
+                    data: {
+                        exerciseName: exerciseName
+                    },
+                    success: function () {
+                        // Uppdatera vyn eller meddela användaren att övningen har lagts till
+                        // Till exempel, ladda om hela sidan eller lägg till den nya övningen dynamiskt
+                    },
+                    error: function () {
+                        alert("Error: Could not add exercise.");
+                    }
+                });
+            });
+        });
+    </script>
+}

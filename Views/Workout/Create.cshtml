@@ -9,7 +9,7 @@
     <hr />
 </div>
 <div class="row">
-    <div class="col-md-4 mx-auto">
+    <div class="col-md-4 mx-auto mt-4">
         <form asp-action="Create" class="divinput">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
@@ -19,8 +19,8 @@
             </div>
             <div id="bodypartIdDiv" class="form-group" style="display: none;">
                 <label asp-for="BodyPartId" class="control-label">Body part</label>
-                <input asp-for="BodyPartId" class="form-control" />
-                <span asp-validation-for="BodyPartId" class="text-danger"></span>
+                <select id="BodyPartId" class="form-control" asp-for="BodyPartId"
+                    asp-items="ViewBag.BodyPartId"></select>
             </div>
             <div class="form-group">
                 <label asp-for="Description" class="control-label"></label>
@@ -55,10 +55,6 @@
                     <span asp-validation-for="Comment" class="text-danger"></span>
                 </div>
             </div>
-
-
-
-
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
@@ -69,6 +65,7 @@
                 <span>Go Back</span>
             </a>
         </div>
+
     </div>
 </div>
 
@@ -87,6 +84,7 @@
                     bodypartIdDiv.style.display = "none";
                     document.getElementById("Length").value = null;
                     document.getElementById("Rating").value = null;
+                    document.getElementById("BodyPartId").value = null;
                 } else if (selectedValue === "2") { // Gym (Styrka)
                     lengthRatingDiv.style.display = "none";
                     bodypartIdDiv.style.display = "block";

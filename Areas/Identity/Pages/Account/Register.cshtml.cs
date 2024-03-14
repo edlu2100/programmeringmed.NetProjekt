@@ -92,9 +92,9 @@ namespace programmeringmed.NetProjekt.Areas.Identity.Pages.Account
             [Required]
             [Display(Name = "Gender")]
             public string Gender { get; set; }
-            [Required]
+
             [Display(Name = "Admin")]
-            public string Admin { get; set; }
+            public bool IsAdmin { get; set; }
 
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
@@ -122,14 +122,20 @@ namespace programmeringmed.NetProjekt.Areas.Identity.Pages.Account
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
-
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
             returnUrl ??= Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+
             if (ModelState.IsValid)
             {
                 var user = CreateUser();
+
+                if (Input.IsAdmin)
+                {
+                    // Tilldela användaren admin-rollen
+                    await _userManager.AddToRoleAsync(user, "Admin");
+                }
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
@@ -161,6 +167,7 @@ namespace programmeringmed.NetProjekt.Areas.Identity.Pages.Account
                         return LocalRedirect(returnUrl);
                     }
                 }
+
                 foreach (var error in result.Errors)
                 {
                     ModelState.AddModelError(string.Empty, error.Description);
@@ -175,7 +182,13 @@ namespace programmeringmed.NetProjekt.Areas.Identity.Pages.Account
         {
             try
             {
-                return Activator.CreateInstance<ApplicationUser>();
+                var user = Activator.CreateInstance<ApplicationUser>();
+                user.FirstName = Input.FirstName;
+                user.LastName = Input.LastName;
+                user.Age = Input.Age;
+                user.Gender = Input.Gender;
+
+                return user;
             }
             catch
             {

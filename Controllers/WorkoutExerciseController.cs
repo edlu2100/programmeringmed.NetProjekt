@@ -71,6 +71,36 @@ namespace programmeringmed.NetProjekt.Controllers
             return View(workoutExerciseModel);
         }
 
+        
+        // GET: WorkoutExercise/CreateNew
+        public IActionResult CreateNew(int workoutId)
+        {
+            ViewData["ExerciseId"] = new SelectList(_context.Exercise, "Id", "ExerciseName");
+            ViewData["WorkoutId"] = workoutId; // Tilldela WorkoutId till ViewData
+            return View();
+        }
+
+        // POST: WorkoutExercise/CreateNew
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateNew(int workoutId, [Bind("Id,ExerciseId")] WorkoutExerciseModel workoutExerciseModel)
+        {
+            if (ModelState.IsValid)
+            {
+                workoutExerciseModel.WorkoutId = workoutId; // Tilldela workoutId från parameter till workoutExerciseModel
+
+                _context.Add(workoutExerciseModel);
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction("ListByWorkoutId", "WorkoutExercise", new { workoutId = workoutId });
+            }
+
+            ViewData["ExerciseId"] = new SelectList(_context.Exercise, "Id", "ExerciseName", workoutExerciseModel.ExerciseId);
+            ViewData["WorkoutId"] = workoutId; // Tilldela WorkoutId till ViewData
+            return View(workoutExerciseModel);
+        }
+
+
         // GET: WorkoutExercise/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -155,15 +185,50 @@ namespace programmeringmed.NetProjekt.Controllers
             if (workoutExerciseModel != null)
             {
                 _context.WorkoutExercise.Remove(workoutExerciseModel);
+                await _context.SaveChangesAsync();
             }
 
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            // Redirect till ListByWorkoutId med det specifika workoutId
+            return RedirectToAction("ListByWorkoutId", "WorkoutExercise", new { workoutId = workoutExerciseModel.WorkoutId });
         }
+
 
         private bool WorkoutExerciseModelExists(int id)
         {
             return _context.WorkoutExercise.Any(e => e.Id == id);
         }
+            // GET: WorkoutExercise/ListByWorkoutId/5
+        public async Task<IActionResult> ListByWorkoutId(int? workoutId)
+        {
+            if (workoutId == null)
+            {
+                return NotFound();
+            }
+
+            var workoutExercises = await _context.WorkoutExercise
+                .Include(we => we.Exercise)
+                .Where(we => we.WorkoutId == workoutId)
+                .ToListAsync();
+
+            if (workoutExercises == null || workoutExercises.Count == 0)
+            {
+                return NotFound();
+            }
+            
+            ViewBag.WorkoutId = workoutId; // Lägg till workoutId i ViewBag
+
+
+            return View(workoutExercises);
+        }
+        // Metod för att omdirigera till Create med workoutId som parameter
+        public IActionResult RedirectToCreate(int workoutId)
+        {
+            return RedirectToAction("CreateNew", new { workoutId = workoutId });
+        }
+
+        
+        
+
+
     }
 }

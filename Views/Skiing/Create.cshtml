@@ -4,100 +4,62 @@
     ViewData["Title"] = "Create";
 }
 
-<div class="w">
-    <h1>Create skiingsession</h1>
-
-
-<hr />
-<div class="row">
-    <div class="col-md-6 mx-auto">
-        <form asp-action="Create" asp-route-workoutId="@ViewData["WorkoutId"]" class="divinput">
-            <div asp-validation-summary=" ModelOnly" class="text-danger">
-            </div>
-            <input type="hidden" asp-for="WorkoutId" value="@ViewData["WorkoutId"]" />
-            <div class="form-group ">
-                <label asp-for="Location" class="control-label"></label>
-                <input asp-for="Location" class="form-control" />
-                <span asp-validation-for="Location" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="OrganizationId" class="control-label">Organization</label>
-                <select asp-for="OrganizationId" asp-items="ViewBag.OrganizationId" class="form-control"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="DisciplineId" class="control-label">Discipline</label>
-                <select asp-for="DisciplineId" class="form-control" asp-items="ViewBag.DisciplineId"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="MethodId" class="control-label">Method</label>
-                <select asp-for="MethodId" class="form-control" asp-items="ViewBag.MethodId"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="Freeruns" class="control-label"></label>
-                <input asp-for="Freeruns" class="form-control" />
-                <span asp-validation-for="Freeruns" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="FocusId" class="control-label">Focus</label>
-                <select asp-for="FocusId" class="form-control" asp-items="ViewBag.FocusId"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="TurnsPerRun" class="control-label">Turns per run</label>
-                <input asp-for="TurnsPerRun" class="form-control" />
-                <span asp-validation-for="TurnsPerRun" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="GateDistance" class="control-label">Gate Distance</label>
-                <input asp-for="GateDistance" class="form-control" />
-                <span asp-validation-for="GateDistance" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="Runs" class="control-label"></label>
-                <input asp-for="Runs" class="form-control" />
-                <span asp-validation-for="Runs" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CompletedRuns" class="control-label">Completed runs</label>
-                <input asp-for="CompletedRuns" class="form-control" />
-                <span asp-validation-for="CompletedRuns" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-
-                <label asp-for="ApproachToTask" class="control-label">Approach to task</label>
-                <div class="Minmax">
-                    <span>Min</span>
-                    <span>Max</span>
+<div class="container">
+    <div class="w">
+        <h1 class="text-center">Create skiing session</h1>
+        <hr />
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+                <form id="skiing-form" asp-action="Create" asp-route-workoutId="@ViewData["WorkoutId"]" class="divinput">
+                    <div asp-validation-summary="ModelOnly" class="text-danger">
+                    </div>
+                    <input type="hidden" asp-for="WorkoutId" value="@ViewData["WorkoutId"]" />
+                    <div class="form-group">
+                        <label asp-for="Location" class="control-label">Location</label>
+                        <input asp-for="Location" class="form-control" />
+                        <span asp-validation-for="Location" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="OrganizationId" class="control-label">Organization</label>
+                        <select asp-for="OrganizationId" asp-items="ViewBag.OrganizationId" class="form-control"></select>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="MethodId" class="control-label">Method</label>
+                        <select id="methodId" asp-for="MethodId" class="form-control" asp-items="ViewBag.MethodId"></select>
+                    </div>
+                    <div id="disciplineFields" style="display: none;">
+                        <!-- Fields specific to MethodId 2 -->
+                        <!-- Add your fields here -->
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Create" class="btn btn-primary btn-block" />
+                    </div>
+                </form>
+                <div class="mt-2 d-flex align-items-center justify-content-center">
+                    <a asp-action="Index" class="d-flex align-items-center">
+                        <img class="mx-2" src="/Images/arrow.png" alt="">
+                        <span>Go Back</span>
+                    </a>
                 </div>
-                <input type="range" min="1" max="5" value="3" class="slider" asp-for="ApproachToTask"
-                    class="form-control" />
-                <span asp-validation-for="ApproachToTask" class="text-danger"></span>
             </div>
-
-            <div class="form-group">
-                <label asp-for="Goal" class="control-label">Goal of session</label>
-                <input asp-for="Goal" class="form-control" />
-                <span asp-validation-for="Goal" class="text-danger"></span>
-            </div>
-
-
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
-                <div class="mt-2 d-flex align-items-center">
-            <a asp-action="Index" class="d-flex align-items-center">
-                <img class="mx-2" src="/Images/arrow.png" alt="">
-                <span>Go Back</span>
-            </a>
         </div>
     </div>
-</div>
-
 </div>
 
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+    <script>
+        document.getElementById('methodId').addEventListener('change', function () {
+            var methodId = this.value;
+            var disciplineFields = document.getElementById('disciplineFields');
+
+            if (methodId == 2) {
+                disciplineFields.style.display = 'block';
+            } else {
+                disciplineFields.style.display = 'none';
+            }
+        });
+    </script>
 }

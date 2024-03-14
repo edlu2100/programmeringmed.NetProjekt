@@ -159,6 +159,7 @@ namespace programmeringmed.NetProjekt.Controllers
         // POST: Workout/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: Workout/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Description,Date,Completed,Comment,Rating,Length,Username,BodyPartId,ExerciseFormId,SkiingId, ConditionId")] WorkoutModel workoutModel)
@@ -172,6 +173,9 @@ namespace programmeringmed.NetProjekt.Controllers
             {
                 try
                 {
+                    // Hämta användarnamnet från autentiseringen
+                    workoutModel.Username = User.Identity?.Name;
+
                     _context.Update(workoutModel);
                     await _context.SaveChangesAsync();
                 }
@@ -186,12 +190,24 @@ namespace programmeringmed.NetProjekt.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+
+                // Redirect the user based on ExerciseFormId
+                if (workoutModel.ExerciseFormId == 2) // Gym
+                {
+                    // Check if ExerciseForm is gym
+                    return RedirectToAction("ListByWorkoutId", "WorkoutExercise", new { workoutId = workoutModel.Id });
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Workout");
+                }
             }
             ViewData["BodyPartId"] = new SelectList(_context.BodyPart, "Id", "BodyPart", workoutModel.BodyPartId);
             ViewData["ExerciseFormId"] = new SelectList(_context.ExerciseForm, "Id", "ExerciseForm", workoutModel.ExerciseFormId);
             return View(workoutModel);
         }
+
+
 
         // GET: Workout/Delete/5
         public async Task<IActionResult> Delete(int? id)
