@@ -65,7 +65,7 @@ namespace programmeringmed.NetProjekt.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.[HttpPost]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(int workoutId, [Bind("Id,Location,OrganizationId,DisciplineId,MethodId,FocusId,TurnsPerRun,GateDistance,Freeruns,Runs,CompletedRuns,ApproachToTask,Goal")] SkiingModel skiingModel)
+        public async Task<IActionResult> Create(int workoutId, [Bind("Id,Location,OrganizationId,MethodId,DisciplineId,FocusId,TurnsPerRun,GateDistance,Freeruns,Runs,CompletedRuns,ApproachToTask,Goal")] SkiingModel skiingModel)
         {
             if (ModelState.IsValid)
             {

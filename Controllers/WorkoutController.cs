@@ -46,46 +46,39 @@ namespace programmeringmed.NetProjekt.Controllers
             var skiingCount = await _context.Workout
                 .Where(w => w.Username == username && w.ExerciseFormId == 3 && w.Completed == true && w.Date >= thirtyDaysAgo)
                 .CountAsync();
+            // Räkna ihop totala antalet träningspass under de senaste 30 dagarna
+            var totalWorkoutsCount = gymCount + conditionCount + skiingCount;
 
-            // Skapa en lista med träningsdata
-            var workoutData = new List<int> { gymCount, conditionCount, skiingCount };
+            // Hämta antalet träningspass per vecka för stapeldiagramet
+            var weeklyWorkouts = new Dictionary<string, int>();
+
+            // Beräkna antalet veckor sedan startdatumet
+            int weeksCount = (int)Math.Ceiling((DateTime.Today - thirtyDaysAgo).TotalDays / 7);
+
+            // Loopa över varje vecka
+            for (int i = 0; i < weeksCount; i++)
+            {
+                var startDate = thirtyDaysAgo.AddDays(i * 7);
+                var endDate = startDate.AddDays(6);
+
+                var weeklyWorkoutsCount = await _context.Workout
+                    .Where(w => w.Username == username && w.Completed == true && w.Date >= startDate && w.Date <= endDate)
+                    .CountAsync();
+
+                weeklyWorkouts.Add($"Week {i+1}", weeklyWorkoutsCount);
+            }
+
+            // Sätt data i ViewBag
+            ViewBag.GymCount = gymCount;
+            ViewBag.ConditionCount = conditionCount;
+            ViewBag.SkiingCount = skiingCount;
+            ViewBag.TotalWorkoutsCount = totalWorkoutsCount;
+            ViewBag.WeeklyWorkouts = weeklyWorkouts;
 
             // Skicka datan till vyn
-            return View(workoutData);
+            return View();
         }
 
-
-
-
-
-
-            public async Task<IActionResult> RenderBarChart()
-            {
-                var username = User.Identity.Name;
-
-                // Beräkna gränsvärdet för 30 dagar tillbaka i tiden
-                var thirtyDaysAgo = DateTime.Today.AddDays(-30);
-
-                // Hämta antal träningspass per dag de senaste 30 dagarna
-                var workoutCountsPerDay = new List<int>();
-
-                for (int i = 0; i < 30; i++)
-                {
-                    var currentDate = DateTime.Today.AddDays(-i);
-                    var workoutCount = await _context.Workout
-                        .Where(w => w.Username == username && w.Completed == true && w.Date.HasValue && w.Date.Value.Date == currentDate.Date)
-                        .CountAsync();
-
-                    workoutCountsPerDay.Insert(0, workoutCount); // Lägg till antalet träningspass för den aktuella dagen
-                }
-
-                // Skapa en lista med datumsträngar för stapeldiagrammet
-                var workoutDates = Enumerable.Range(0, 30)
-                    .Select(i => DateTime.Today.AddDays(-i).ToShortDateString())
-                    .ToList();
-
-                return PartialView("_BarChartPartial", new Tuple<List<int>, List<string>>(workoutCountsPerDay, workoutDates));
-            }
 
         // GET: Workout/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -97,45 +90,26 @@ namespace programmeringmed.NetProjekt.Controllers
 
             var workoutModel = await _context.Workout
                 .Include(w => w.WorkoutExercises)
-                .ThenInclude(we => we.Exercise) // inkludera övningarna
+                    .ThenInclude(we => we.Exercise) // inkludera övningarna
+                .Include(w => w.ExerciseForm) // inkludera exerciseform
+                .Include(w => w.Condition) // inkludera kondition
+                    .ThenInclude(s => s.ConditionForm)
+                .Include(w => w.Condition) // inkludera kondition
+                    .ThenInclude(s => s.ConditionType) // inkludera condition type
+                .Include(w => w.BodyPart) // inkludera kroppsdel
+                .Include(w => w.Skiing) // inkludera skidåkning
+                    .ThenInclude(s => s.Method) // inkludera metod
+                .Include(w => w.Skiing) // inkludera skidåkning
+                    .ThenInclude(s => s.Focus) // inkludera fokus
+                .Include(w => w.Skiing) // inkludera skidåkning
+                    .ThenInclude(s => s.Discipline) // inkludera disciplin
+                .Include(w => w.Skiing) // inkludera skidåkning
+                    .ThenInclude(s => s.Organization) // inkludera organisation
                 .FirstOrDefaultAsync(m => m.Id == id);
 
             if (workoutModel == null)
             {
                 return NotFound();
-            }
-
-            // Konditionsträning
-            if (workoutModel.ExerciseFormId == 1)
-            {
-                workoutModel = await _context.Workout
-                    .Include(w => w.WorkoutExercises)
-                    .ThenInclude(we => we.Exercise) // inkludera övningarna
-                    .Include(w => w.Condition) // inkludera kondition
-                    .FirstOrDefaultAsync(m => m.Id == id);
-            }
-            // Gymträning
-            else if (workoutModel.ExerciseFormId == 2)
-            {
-                workoutModel = await _context.Workout
-                    .Include(w => w.WorkoutExercises)
-                    .ThenInclude(we => we.Exercise) // inkludera övningarna
-                    .Include(w => w.BodyPart) // inkludera kroppsdel
-                    .FirstOrDefaultAsync(m => m.Id == id);
-            }
-            // Skidåkningsträning
-            else if (workoutModel.ExerciseFormId == 3)
-            {
-
-                workoutModel = await _context.Workout
-                    .Include(w => w.WorkoutExercises)
-                    .ThenInclude(we => we.Exercise) // inkludera övningarna
-                    .Include(w => w.Skiing) // inkludera skidåkning
-                    .Include(w => w.Skiing.Method) // inkludera metod
-                    .Include(w => w.Skiing.Focus) // inkludera fokus
-                    .Include(w => w.Skiing.Discipline) // inkludera disciplin
-                    .Include(w => w.Skiing.Organization) // inkludera organisation
-                    .FirstOrDefaultAsync(m => m.Id == id);
             }
 
             return View(workoutModel);

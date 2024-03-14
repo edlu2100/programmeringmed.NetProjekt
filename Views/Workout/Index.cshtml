@@ -58,15 +58,14 @@
         @foreach (var item in Model.OrderByDescending(m => m.Date).Where(m => !m.Completed && m.Username == User.Identity.Name))
             {
                 <tr>
-                    <!-- Hela tabellraden är nu en länk -->
-                    <!-- Tabellceller -->
+
                     <td>@Html.DisplayFor(modelItem => item.Date)</td>
                     <td>@Html.DisplayFor(modelItem => item.ExerciseForm.ExerciseForm)</td>
                     <td class="deletedetails">
                         <a asp-action="Details" asp-route-id="@item.Id" class="detailsBtn">Details</a>
                         <img src="/Images/check.png" class="mark-completed-btn" data-id="@item.Id" alt="">
                     </td>
-                    <!-- Visa BodyPartId endast när ExerciseForm är "Gym" -->
+
                 </tr>
             }
         </tbody>
@@ -78,31 +77,21 @@ else
 }
 
 <!-- Tabell för slutförda pass -->
-<h2 class="mt-5">Completed sessions</h2>
-<table class="table">
-    <thead>
-        <tr>
-            <!-- Tabellhuvud -->
-            <th>Date for session</th>
-            <th>Type of training</th>
-            <th class="deletedetails">Details</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.OrderByDescending(m => m.Date).Where(m => m.Completed && m.Username == User.Identity.Name))
-        {
-            <!-- Tabellrader -->
-            <tr>
-                <!-- Tabellceller -->
-                <td>@Html.DisplayFor(modelItem => item.Date)</td>
-                <td>@Html.DisplayFor(modelItem => item.ExerciseForm.ExerciseForm)</td>
-                <td class="deletedetails">
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+<h2 class="mt-5 mb-5">Completed sessions</h2>
+@foreach (var item in Model.OrderByDescending(m => m.Date).Where(m => m.Completed && m.Username == User.Identity.Name))
+    {
+        <div>
+        
+            <h5>@Html.DisplayFor(modelItem => item.Date)</h5>
+        
+            <div class="flex">
+                <p>@Html.DisplayFor(modelItem => item.ExerciseForm.ExerciseForm)</p>
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+            </div>
+                <hr>
+        </div>
+    }
+
 
 <!-- JavaScript för att hantera popuprutan -->
 @section Scripts {

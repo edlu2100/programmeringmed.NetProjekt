@@ -1,18 +1,36 @@
-@model List<int>
-
-@{
-    ViewData["Title"] = "Dashboard";
-}
+@model IEnumerable<int>
 
 <h2>Dashboard</h2>
 
+<div class="flex">
+    <!-- Cirkeldiagram -->
+    <div>
+        <!-- Använd ViewBag för att hämta cirkeldiagramdatan -->
+        <canvas id="myDoughnutChart" width="400" height="400"></canvas>
+    </div>
+
+    <!-- Stapeldiagram -->
+    <div>
+        <canvas id="myBarChart" width="400" height="400"></canvas>
+    </div>
+
+</div>
+<!-- Skriv ut antal pass de senaste 30 dagarna -->
 <div>
-    <canvas id="myDoughnutChart" width="400" height="400"></canvas>
+    <h3>Antal pass de senaste 30 dagarna: @ViewBag.TotalWorkoutsCount</h3>
+
 </div>
 
 @section Scripts {
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
+        // Hämta cirkeldiagramdatan från ViewBag
+        var doughnutData = [@ViewBag.GymCount, @ViewBag.ConditionCount, @ViewBag.SkiingCount];
+
+        // Hämta stapeldiagramdatan från ViewBag
+        var weeklyWorkoutsData = @Html.Raw(Json.Serialize(ViewBag.WeeklyWorkouts));
+
+        // Skapa cirkeldiagram
         var doughnutCtx = document.getElementById('myDoughnutChart').getContext('2d');
         var doughnutChart = new Chart(doughnutCtx, {
             type: 'doughnut',
@@ -20,7 +38,7 @@
                 labels: ['Gym', 'Condition', 'Skiing'],
                 datasets: [{
                     label: 'Training Types',
-                    data: [@Model[0], @Model[1], @Model[2]],
+                    data: doughnutData,
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.2)',
                         'rgba(54, 162, 235, 0.2)',
@@ -31,6 +49,33 @@
                         'rgba(54, 162, 235, 1)',
                         'rgba(255, 206, 86, 1)'
                     ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: false,
+                maintainAspectRatio: false,
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+
+        // Skapa stapeldiagram
+        var barCtx = document.getElementById('myBarChart').getContext('2d');
+        var barChart = new Chart(barCtx, {
+            type: 'bar',
+            data: {
+                labels: Object.keys(weeklyWorkoutsData),
+                datasets: [{
+                    label: 'Weekly Workouts',
+                    data: Object.values(weeklyWorkoutsData),
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
                     borderWidth: 1
                 }]
             },

@@ -23,7 +23,7 @@
                         asp-items="ViewBag.BodyPartId"></select>
                 </div>
                 <div class="form-group">
-                    <label asp-for="Description" class="control-label"></label>
+                    <label asp-for="Description" class="control-label">Description</label>
                     <input asp-for="Description" class="form-control" />
                     <span asp-validation-for="Description" class="text-danger"></span>
                 </div>
@@ -47,7 +47,6 @@
                         </div>
                         <input asp-for="Rating" type="range" min="1" max="5" value="3" class="slider" id="rating"
                             name="rating" />
-
                     </div>
                     <div class="form-group">
                         <label asp-for="Comment" class="control-label">Comment</label>
@@ -65,7 +64,6 @@
                     <span>Go Back</span>
                 </a>
             </div>
-
         </div>
     </div>
 </div>
@@ -80,10 +78,8 @@
             exerciseFormId.addEventListener("change", function () {
                 var selectedValue = exerciseFormId.value;
                 if (selectedValue === "1") { // Kondition
-                    lengthRatingDiv.style.display = "none";
+                    lengthRatingDiv.style.display = "block";
                     bodypartIdDiv.style.display = "none";
-                    document.getElementById("Length").value = null;
-                    document.getElementById("Rating").value = null;
                     document.getElementById("BodyPartId").value = null;
                 } else if (selectedValue === "2") { // Gym (Styrka)
                     lengthRatingDiv.style.display = "none";
