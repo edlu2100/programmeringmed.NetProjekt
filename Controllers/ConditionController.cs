@@ -67,13 +67,15 @@ namespace programmeringmed.NetProjekt.Controllers
             {
                 _context.Add(conditionModel);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                // Skicka tillbaka till Index-åtgärden för Workout-kontrollern
+                return RedirectToAction("Index", "Workout");
             }
             ViewData["ConditionFormId"] = new SelectList(_context.ConditionForm, "Id", "ConditionName", conditionModel.ConditionFormId);
             ViewData["ConditionTypeId"] = new SelectList(_context.ConditionType, "Id", "ConditionType", conditionModel.ConditionTypeId);
             ViewData["WorkoutId"] = new SelectList(_context.Workout, "Id", "Description", conditionModel.WorkoutId);
             return View(conditionModel);
         }
+
 
         // GET: Condition/Edit/5
         public async Task<IActionResult> Edit(int? id)

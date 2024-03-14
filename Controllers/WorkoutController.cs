@@ -27,6 +27,66 @@ namespace programmeringmed.NetProjekt.Controllers
             var applicationDbContext = _context.Workout.Include(w => w.BodyPart).Include(w => w.ExerciseForm);
             return View(await applicationDbContext.ToListAsync());
         }
+        public async Task<IActionResult> Dashboard()
+        {
+            var username = User.Identity.Name;
+
+            // Beräkna gränsvärdet för 30 dagar tillbaka i tiden
+            var thirtyDaysAgo = DateTime.Today.AddDays(-30);
+
+            // Hämta antal avslutade träningspass för varje typ av träning under de senaste 30 dagarna
+            var gymCount = await _context.Workout
+                .Where(w => w.Username == username && w.ExerciseFormId == 2 && w.Completed == true && w.Date >= thirtyDaysAgo)
+                .CountAsync();
+
+            var conditionCount = await _context.Workout
+                .Where(w => w.Username == username && w.ExerciseFormId == 1 && w.Completed == true && w.Date >= thirtyDaysAgo)
+                .CountAsync();
+
+            var skiingCount = await _context.Workout
+                .Where(w => w.Username == username && w.ExerciseFormId == 3 && w.Completed == true && w.Date >= thirtyDaysAgo)
+                .CountAsync();
+
+            // Skapa en lista med träningsdata
+            var workoutData = new List<int> { gymCount, conditionCount, skiingCount };
+
+            // Skicka datan till vyn
+            return View(workoutData);
+        }
+
+
+
+
+
+
+            public async Task<IActionResult> RenderBarChart()
+            {
+                var username = User.Identity.Name;
+
+                // Beräkna gränsvärdet för 30 dagar tillbaka i tiden
+                var thirtyDaysAgo = DateTime.Today.AddDays(-30);
+
+                // Hämta antal träningspass per dag de senaste 30 dagarna
+                var workoutCountsPerDay = new List<int>();
+
+                for (int i = 0; i < 30; i++)
+                {
+                    var currentDate = DateTime.Today.AddDays(-i);
+                    var workoutCount = await _context.Workout
+                        .Where(w => w.Username == username && w.Completed == true && w.Date.HasValue && w.Date.Value.Date == currentDate.Date)
+                        .CountAsync();
+
+                    workoutCountsPerDay.Insert(0, workoutCount); // Lägg till antalet träningspass för den aktuella dagen
+                }
+
+                // Skapa en lista med datumsträngar för stapeldiagrammet
+                var workoutDates = Enumerable.Range(0, 30)
+                    .Select(i => DateTime.Today.AddDays(-i).ToShortDateString())
+                    .ToList();
+
+                return PartialView("_BarChartPartial", new Tuple<List<int>, List<string>>(workoutCountsPerDay, workoutDates));
+            }
+
         // GET: Workout/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -96,6 +156,10 @@ namespace programmeringmed.NetProjekt.Controllers
         {
             if (ModelState.IsValid)
             {
+                // Bestäm om träningspasset är slutfört baserat på datum
+                workoutModel.Completed = DateTime.Today > workoutModel.Date;
+
+
                 if (workoutModel.ExerciseFormId == 1) // Om "Kondition" är valt
                 {
                     workoutModel.BodyPartId = null; // Sätt BodyPartId till null

@@ -1,0 +1,38 @@
+@model Tuple<List<int>, List<string>>
+
+<canvas id="myBarChart" width="400" height="400"></canvas>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        var barCtx = document.getElementById('myBarChart').getContext('2d');
+        var barChart = new Chart(barCtx, {
+            type: 'bar',
+            data: {
+                labels: @Html.Raw(Json.Serialize(Model.Item2)),
+                datasets: [{
+                    label: 'Number of Workouts',
+                    data: @Html.Raw(Json.Serialize(Model.Item1)),
+                    backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true,
+                            stepSize: 1, // Ange stegstorlek till 1 för att visa enkeltal mellan 1-5
+                            callback: function(value, index, values) {
+                                if (Number.isInteger(value) && value >= 1 && value <= 5) {
+                                    return value;
+                                }
+                            }
+                        }
+                    }]
+                }
+            }
+        });
+    </script>
+}

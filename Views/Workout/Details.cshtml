@@ -5,17 +5,27 @@
 }
 
 <div class="w">
-    <div class=" flex">
-        <h1>Details</h1>
-        <div>
-            <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-            <a asp-action="Delete" asp-route-id="@Model?.Id"><img src="/Images/close.png" alt=""></a>
-            <a asp-action="Index">Go Back</a>
+<div class="end flex justify-content-between"> <!-- Använd justify-content-between för att placera barnen längst till höger -->
+    <h1>Details</h1>
+    <div class="detend"> <!-- Ta bort ml-auto och lämna bara detend klassen -->
+        <div class="d-flex align-items-center">
+            <a asp-action="Edit" asp-route-id="@Model?.Id" class="d-flex align-items-center">
+                <img class="mx-2 mb-1" src="/Images/edit.png" alt="">
+                <span>Edit</span>
+            </a>
         </div>
-        <hr />
+        <div class="d-flex align-items-center">
+            <a asp-action="Delete" asp-route-id="@Model?.Id" class="d-flex align-items-center">
+                <img class="mx-2" src="/Images/close.png" alt="">
+                <span>Delete</span>
+            </a>
+        </div>
     </div>
+    <hr />
+</div>
+
     <div class="">
-        <hr />
+
         <dl class="row">
             <dt class="col-sm-2">
                 Date of session
@@ -30,33 +40,33 @@
                 @Html.DisplayFor(model => model.Comment)
             </dd>
            <dt class="col-sm-2">
-    @Html.DisplayNameFor(model => model.Rating)
-</dt>
-<dd class="col-sm-10">
-    @{
-        switch (Model.Rating)
-        {
-            case 1:
-                @Html.Raw("Terrible")
-                break;
-            case 2:
-                @Html.Raw("Bad")
-                break;
-            case 3:
-                @Html.Raw("Okay")
-                break;
-            case 4:
-                @Html.Raw("Good")
-                break;
-            case 5:
-                @Html.Raw("Awesome")
-                break;
-            default:
-                @Html.Raw("Unknown")
-                break;
-        }
-    }
-</dd>
+                @Html.DisplayNameFor(model => model.Rating)
+            </dt>
+            <dd class="col-sm-10">
+                @{
+                    switch (Model.Rating)
+                    {
+                        case 1:
+                            @Html.Raw("Terrible")
+                            break;
+                        case 2:
+                            @Html.Raw("Bad")
+                            break;
+                        case 3:
+                            @Html.Raw("Okay")
+                            break;
+                        case 4:
+                            @Html.Raw("Good")
+                            break;
+                        case 5:
+                            @Html.Raw("Awesome")
+                            break;
+                        default:
+                            @Html.Raw("Unknown")
+                            break;
+                    }
+                }
+            </dd>
             <dt class="col-sm-2">
                 @Html.DisplayNameFor(model => model.Length)
             </dt>
@@ -76,7 +86,7 @@
             else if (Model.ExerciseFormId == 2) // Gym
             {
                 <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.BodyPart)
+                    Body part
                 </dt>
                 <dd class="col-sm-10">
                     @Html.DisplayFor(model => model.BodyPart.BodyPart)
@@ -192,19 +202,19 @@
                 <thead>
                     <tr>
                         <th>Exercise</th>
-                        <th>Video</th>
+                        <th class="iframe">Video</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var item in Model.WorkoutExercises)
                     {
-                        <tr>
+                        <tr >
                             <td>@Html.DisplayFor(modelItem => item.Exercise.ExerciseName)</td>
                             <td>
                                 <!-- YouTube video iframe -->
                                 @if (!string.IsNullOrEmpty(item.Exercise.VideoUrl))
                                 {
-                                    <iframe src="@item.Exercise.VideoUrl" frameborder="0" allowfullscreen></iframe>
+                                    <iframe class="iframe" src="@item.Exercise.VideoUrl" frameborder="0" allowfullscreen></iframe>
                                 }
                                 else
                                 {
@@ -220,4 +230,10 @@
             </table>
         </div>
     }
+            <div class="mt-2 d-flex align-items-center">
+            <a asp-action="Index" class="d-flex align-items-center">
+                <img class="mx-2" src="/Images/arrow.png" alt="">
+                <span>Go Back</span>
+            </a>
+        </div>
 </div>

@@ -7,68 +7,68 @@
 <div class="w">
     <h1>Create session</h1>
     <hr />
-</div>
-<div class="row">
-    <div class="col-md-4 mx-auto mt-4">
-        <form asp-action="Create" class="divinput">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="ExerciseFormId" class="control-label">Type of training</label>
-                <select id="exerciseFormId" class="form-control" asp-for="ExerciseFormId"
-                    asp-items="ViewBag.ExerciseFormId"></select>
-            </div>
-            <div id="bodypartIdDiv" class="form-group" style="display: none;">
-                <label asp-for="BodyPartId" class="control-label">Body part</label>
-                <select id="BodyPartId" class="form-control" asp-for="BodyPartId"
-                    asp-items="ViewBag.BodyPartId"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Date" class="control-label">Date for session</label>
-                <input asp-for="Date" class="form-control" />
-                <span asp-validation-for="Date" class="text-danger"></span>
-            </div>
 
-            <div class="form-group" id="lengthRatingDiv" style="display: none;">
+    <div class="row">
+        <div class="col-md-6 mx-auto mt-4">
+            <form asp-action="Create" class="divinput">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
-                    <label asp-for="Length" class="control-label">Length</label>
-                    <input asp-for="Length" class="form-control" />
-                    <span asp-validation-for="Length" class="text-danger"></span>
+                    <label asp-for="ExerciseFormId" class="control-label">Type of training</label>
+                    <select id="exerciseFormId" class="form-control" asp-for="ExerciseFormId"
+                        asp-items="ViewBag.ExerciseFormId"></select>
+                </div>
+                <div id="bodypartIdDiv" class="form-group" style="display: none;">
+                    <label asp-for="BodyPartId" class="control-label">Body part</label>
+                    <select id="BodyPartId" class="form-control" asp-for="BodyPartId"
+                        asp-items="ViewBag.BodyPartId"></select>
                 </div>
                 <div class="form-group">
-                    <label asp-for="Rating">Rating</label>
-                    <div class="Minmax">
-                        <span>Min</span>
-                        <span>Max</span>
+                    <label asp-for="Description" class="control-label"></label>
+                    <input asp-for="Description" class="form-control" />
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Date" class="control-label">Date for session</label>
+                    <input asp-for="Date" class="form-control" />
+                    <span asp-validation-for="Date" class="text-danger"></span>
+                </div>
+
+                <div class="form-group" id="lengthRatingDiv" style="display: none;">
+                    <div class="form-group">
+                        <label asp-for="Length" class="control-label">Length</label>
+                        <input asp-for="Length" class="form-control" />
+                        <span asp-validation-for="Length" class="text-danger"></span>
                     </div>
-                    <input asp-for="Rating" type="range" min="1" max="5" value="3" class="slider" id="rating"
-                        name="rating" />
+                    <div class="form-group">
+                        <label asp-for="Rating">Rating</label>
+                        <div class="Minmax">
+                            <span>Min</span>
+                            <span>Max</span>
+                        </div>
+                        <input asp-for="Rating" type="range" min="1" max="5" value="3" class="slider" id="rating"
+                            name="rating" />
 
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Comment" class="control-label">Comment</label>
+                        <input asp-for="Comment" class="form-control" />
+                        <span asp-validation-for="Comment" class="text-danger"></span>
+                    </div>
                 </div>
                 <div class="form-group">
-                    <label asp-for="Comment" class="control-label">Comment</label>
-                    <input asp-for="Comment" class="form-control" />
-                    <span asp-validation-for="Comment" class="text-danger"></span>
+                    <input type="submit" value="Create" class="btn btn-primary" />
                 </div>
+            </form>
+            <div class="mt-2 d-flex align-items-center">
+                <a asp-action="Index" class="d-flex align-items-center">
+                    <img class="mx-2" src="/Images/arrow.png" alt="">
+                    <span>Go Back</span>
+                </a>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
-        <div class="mt-2 d-flex align-items-center">
-            <a asp-action="Index" class="d-flex align-items-center">
-                <img class="mx-2" src="/Images/arrow.png" alt="">
-                <span>Go Back</span>
-            </a>
-        </div>
 
+        </div>
     </div>
 </div>
-
 
 
 @section Scripts {

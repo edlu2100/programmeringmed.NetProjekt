@@ -429,6 +429,19 @@ footer {
     width: 100%;
 }
 
+.LogOutBtn {
+    background-color: var(--accent);
+    border-radius: 5px;
+    padding: 0.5em;
+    width: 100%;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+.LogOutBtn:hover {
+    opacity: 0.7;
+}
+
 .createBtn:hover {
     opacity: 0.7;
 }
@@ -457,4 +470,19 @@ footer {
 
 .rotated-image {
     transform: rotate(180deg);
+}
+
+.detend {
+    display: flex;
+    flex-direction: row;
+}
+
+.iframe {
+    display: none;
+}
+
+@media screen and (min-width: 768px) {
+    .iframe {
+        display: block;
+    }
 }
