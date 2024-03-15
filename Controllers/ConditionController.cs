@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,7 @@ using programmeringmed.NetProjekt.Models;
 
 namespace programmeringmed.NetProjekt.Controllers
 {
+    [Authorize]
     public class ConditionController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -48,11 +50,11 @@ namespace programmeringmed.NetProjekt.Controllers
         }
 
         // GET: Condition/Create
-        public IActionResult Create()
+        public IActionResult Create(int workoutId)
         {
             ViewData["ConditionFormId"] = new SelectList(_context.ConditionForm, "Id", "ConditionName");
             ViewData["ConditionTypeId"] = new SelectList(_context.ConditionType, "Id", "ConditionType");
-            ViewData["WorkoutId"] = new SelectList(_context.Workout, "Id", "Description");
+            ViewData["WorkoutId"] = workoutId;
             return View();
         }
 
@@ -61,10 +63,12 @@ namespace programmeringmed.NetProjekt.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,ConditionTypeId,ConditionFormId,WorkoutId")] ConditionModel conditionModel)
+        public async Task<IActionResult> Create(int workoutId, [Bind("Id,ConditionTypeId,ConditionFormId")] ConditionModel conditionModel)
         {
             if (ModelState.IsValid)
             {
+                // Tilldela workoutId från parametern till SkiingModel
+                conditionModel.WorkoutId = workoutId;
                 _context.Add(conditionModel);
                 await _context.SaveChangesAsync();
                 // Skicka tillbaka till Index-åtgärden för Workout-kontrollern

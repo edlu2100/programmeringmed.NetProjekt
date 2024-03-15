@@ -4,40 +4,44 @@
     ViewData["Title"] = "ExerciseShow";
 }
 
-<div class="flex">
-    <h1>Exercises Show</h1>
-    <div>
-        <a class="createBtn" asp-action="Create">Create New</a>
+<div class="w">
+    <div class="flexsearch">
+        <h1>Exercises</h1>
+        <div class="search-form">
+        <form asp-controller="Exercise" asp-action="ExerciseShow" method="get" class="searchdiv">
+            <div class="form-group search">
+                <input type="text" name="search" class="form-control" placeholder="Search by name or body part">
+                <button type="submit" class="btn searchbtn">Search</button>
+            </div>
+        </form>
     </div>
-</div>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-               Exercise Name
-            </th>
-            <th>
-                Body Part
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
+    </div>
+
+    <hr>
+
+
+
+
+   
+
+    <div class="exercises mt-5">
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ExerciseName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.BodyPart.BodyPart)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                </td>
-            </tr>
+            <div class="card">
+                @if (!string.IsNullOrEmpty(item.VideoUrl))
+                {
+                    <iframe src="@item.VideoUrl" frameborder="0" allowfullscreen></iframe>
+                }
+                else
+                {
+                    <p>No video available</p>
+                }
+
+                <a asp-action="Details" asp-route-id="@item.Id">
+                    <h2>@Html.DisplayFor(modelItem => item.ExerciseName)</h2>
+                    <p>Primary bodypart: @Html.DisplayFor(modelItem => item.BodyPart.BodyPart)</p>
+                </a>
+            </div>
         }
-    </tbody>
-</table>
+    </div>
+</div>

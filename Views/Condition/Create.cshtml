@@ -11,7 +11,7 @@
     <hr />
     <div class="row">
         <div class="col-md-6 mx-auto mt-4">
-            <form asp-action="Create" class="divinput">
+            <form asp-action="Create" asp-route-workoutId="@ViewData["WorkoutId"]" class="divinput">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
                     <label asp-for="ConditionFormId" class="control-label">Type of Training</label>

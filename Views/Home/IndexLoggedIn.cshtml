@@ -1,0 +1,39 @@
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="home">
+    <div class="text">
+    @if (SignInManager.IsSignedIn(User))
+    {
+        var user = await UserManager.GetUserAsync(User);
+        var FirstName = user?.FirstName;
+
+        var LastName = user?.LastName;
+        <h1 class="center">Welcome Back, @FirstName!</h1>
+    }
+    <em class="center mt-3">-Track Your Journey, One Workout at a Time.</em>
+    </div>
+      
+    <div class="startimg">
+        <img src="/Images/32057.jpg" alt="Startbild">
+    </div>
+</div>
+
+<div class="homebox mb-5">
+    <a class="cubeStart" asp-controller="Workout" asp-action="Index">
+        <p class="">Activity</p>
+    </a>
+    <a class="cubeStart" asp-controller="Workout" asp-action="Create">
+        <p class="">Add Data</p>
+    </a>
+    <a class="cubeStart" asp-controller="Workout" asp-action="Dashboard">
+        <p class="">Dashboard</p>
+    </a>
+
+</div>
+

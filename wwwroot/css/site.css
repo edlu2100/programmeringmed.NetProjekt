@@ -486,8 +486,258 @@ footer {
     display: none;
 }
 
+.dashboard {
+    display: grid;
+    grid-template-columns: auto;
+    align-items: center;
+    /* Center the charts on mobile */
+    gap: 2em;
+    /* Add space between elements */
+}
+
+.diagram1,
+.diagram2 {
+    width: 100%;
+    margin-inline: auto;
+    /* Center the charts */
+}
+
+.diagram2,
+.box {
+    margin-top: 5em;
+}
+
+.box {
+    padding: 3em;
+    width: 70%;
+    /* Set box width to 80% */
+    max-width: 500px;
+    /* Limit box width */
+    margin-inline: auto;
+    /* Center the box */
+    border-radius: 10px;
+    border: 5px solid rgba(255, 99, 132, 0.2);
+}
+
+@media screen and (min-width: 1000px) {
+    .dashboard {
+        grid-template-columns: auto auto;
+        /* Two columns on larger screens */
+        width: 70%;
+        /* Adjust width as needed */
+        margin-inline: auto;
+        /* Center the grid */
+    }
+    .diagram1,
+    .diagram2 {
+        width: auto;
+        /* Reset width */
+    }
+}
+
+@media screen and (min-width: 768px) {
+    .dashboard {
+        grid-template-columns: auto auto;
+        /* Revert to single column layout */
+    }
+    .diagram1,
+    .diagram2 {
+        width: 100%;
+        /* Reset width */
+    }
+    .diagram2,
+    .box {
+        margin-top: 0;
+    }
+}
+
 @media screen and (min-width: 768px) {
     .iframe {
         display: block;
+    }
+}
+
+.card {
+    width: 280px;
+    background-color: var(--primary);
+    margin-bottom: 1em;
+    border-radius: 5px;
+    border: 1px solid var(--accent);
+}
+
+.card h2 {
+    font-size: 1.5em;
+}
+
+.card iframe {
+    height: 200px;
+    border-radius: 5px 5px 0 0;
+}
+
+.card a {
+    padding: 1.5em;
+}
+
+.exercises {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5em;
+    justify-content: center;
+}
+
+.search {
+    display: flex;
+    flex-direction: row;
+    gap: 1em;
+}
+
+.search input {
+    max-width: 300px;
+}
+
+.flexsearch {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.searchdiv {
+    margin-top: 1em;
+    width: 100%;
+}
+
+.searchbtn {
+    background-color: var(--accent);
+    color: black;
+    border: black;
+}
+
+.searchbtn:hover {
+    opacity: 0.7;
+}
+
+@media screen and (min-width: 768px) {
+    .flexsearch {
+        flex-direction: row;
+    }
+    .searchdiv {
+        margin-top: 0.3em;
+    }
+}
+
+.iframedetails {
+    width: 80%;
+    display: block;
+    margin-inline: auto;
+    aspect-ratio: 16/9;
+    /* 16:9 aspect ratio */
+}
+
+.divex {
+    border: 1px solid var(--accent);
+    width: 80%;
+    margin-inline: auto;
+    margin-top: 1.5em;
+}
+
+.con {
+    padding: 1em;
+    width: 92%;
+    margin-inline: auto;
+}
+
+.startimg img {
+    width: 100%;
+    display: block;
+    margin-inline: auto;
+    border-radius: 50%;
+    margin-top: 3em;
+}
+
+.home {
+    display: flex;
+    flex-direction: column;
+}
+
+.homebox {
+    width: 80%;
+    margin-inline: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 3em;
+    margin-top: 8em;
+}
+
+.homebox p {
+    margin: 0;
+    font-size: 1.3em;
+}
+
+.cubeStart {
+    display: flex;
+    justify-content: center;
+    /* Centrera längs horisontellt */
+    align-items: center;
+    /* Centrera längs vertikalt */
+    width: 60%;
+    aspect-ratio: 1/1;
+    margin-inline: auto;
+    border: 3px solid var(--accent);
+    border-radius: 10px;
+}
+
+@media screen and (min-width: 768px) {
+    .startimg img {
+        width: 70%;
+        display: block;
+        margin-inline: auto;
+        border-radius: 50%;
+        margin-top: 0;
+    }
+    .home {
+        margin-top: 5em;
+    }
+    .homebox {
+        flex-direction: row;
+        width: 60%;
+        margin-top: 12em;
+    }
+}
+
+@media screen and (min-width: 1000px) {
+    .startimg img {
+        width: 70%;
+        display: block;
+        margin-inline: auto;
+        border-radius: 50%;
+    }
+    .home {
+        display: flex;
+        flex-direction: row;
+        margin-top: 6em;
+        width: 80;
+    }
+    .text {
+        width: 40%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        /* Centrera längs horisontellt */
+        align-items: center;
+        /* Centrera längs vertikalt */
+        /* Ange önskad höjd */
+    }
+    .startimg {
+        width: 60%;
+    }
+}
+
+@media screen and (min-width: 1400px) {
+    .home {
+        margin-top: 10em;
+    }
+    .homebox {
+        width: 60%;
+        margin-top: 15em;
     }
 }

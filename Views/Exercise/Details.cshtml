@@ -4,39 +4,46 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<div class="w">
 
-<div>
-    <h4>ExerciseModel</h4>
+    <h1>@Model.ExerciseName</h1>
+    @if (User.Identity.IsAuthenticated)
+    {
+        <div class="detend">
+            <div class="d-flex align-items-center">
+                <a asp-action="Edit" asp-route-id="@Model?.Id" class="d-flex align-items-center">
+                    <img class="mx-2 mb-1" src="/Images/edit.png" alt="">
+                    <span>Edit</span>
+                </a>
+            </div>
+            <div class="d-flex align-items-center">
+                <a asp-action="Delete" asp-route-id="@Model?.Id" class="d-flex align-items-center">
+                    <img class="mx-2" src="/Images/close.png" alt="">
+                    <span>Delete</span>
+                </a>
+            </div>
+        </div>
+    }
     <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ExerciseName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ExerciseName)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.VideoUrl)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.VideoUrl)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.BodyPart)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.BodyPart.BodyPart)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <iframe class="iframedetails" src="@Model.VideoUrl" frameborder="0" allowfullscreen></iframe>
+
+
+    <div class="divex">
+        <div class="con">
+        <h4 class="mt-2">Description</h4>
+        <p>@Model.Description</p>
+
+        <h4>Body part</h4>
+        <p>@Model.BodyPart.BodyPart</p>
+
+        </div>
+
+    </div>
+    <div class="mt-5 d-flex align-items-center go-back-link">
+        <a asp-action="ExerciseShow" class="d-flex align-items-center">
+            <img class="mx-2" src="/Images/arrow.png" alt="">
+            <span>Go Back</span>
+        </a>
+    </div>
+
 </div>

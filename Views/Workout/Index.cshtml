@@ -42,34 +42,29 @@
 
 
 <!-- Tabell för kommande pass -->
-<h2 class="mt-4">Comming sessions</h2>
+<h2 class="mt-4 mb-4">Upcomming sessions</h2>
+
+
 @if (Model.Any(m => !m.Completed))
 {
-    <table class="table">
-    <thead>
-        <tr>
-            <!-- Tabellhuvud -->
-            <th>Date for session</th>
-            <th>Type of training</th>
-            <th class="deletedetails">Mark as completed</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.OrderByDescending(m => m.Date).Where(m => !m.Completed && m.Username == User.Identity.Name))
-            {
-                <tr>
 
-                    <td>@Html.DisplayFor(modelItem => item.Date)</td>
-                    <td>@Html.DisplayFor(modelItem => item.ExerciseForm.ExerciseForm)</td>
-                    <td class="deletedetails">
+    @foreach (var item in Model.OrderByDescending(m => m.Date).Where(m => !m.Completed && m.Username == User.Identity.Name))
+        {
+            <div>
+            
+                <h5>@Html.DisplayFor(modelItem => item.Date)</h5>
+            
+                <div class="flex">
+                    <p>@Html.DisplayFor(modelItem => item.ExerciseForm.ExerciseForm)</p>
+                    <div class="deletedetails">
                         <a asp-action="Details" asp-route-id="@item.Id" class="detailsBtn">Details</a>
                         <img src="/Images/check.png" class="mark-completed-btn" data-id="@item.Id" alt="">
-                    </td>
+                    </div>
+                </div>
+                    <hr>
+            </div>
+        }
 
-                </tr>
-            }
-        </tbody>
-    </table>
 }
 else
 {

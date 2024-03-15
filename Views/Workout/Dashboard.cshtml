@@ -1,25 +1,31 @@
 @model IEnumerable<int>
 
-<h2>Dashboard</h2>
+<div class="w">
+    <h1>Dashboard</h1>
+    <hr>
+    </div>
+    <div class="dashboard mt-5">
+        <!-- Cirkeldiagram -->
+        <div class="diagram1">
+            <!-- Använd ViewBag för att hämta cirkeldiagramdatan -->
+            <canvas id="myDoughnutChart" style=" margin-inline: auto;"></canvas>
+        </div>
 
-<div class="flex">
-    <!-- Cirkeldiagram -->
-    <div>
-        <!-- Använd ViewBag för att hämta cirkeldiagramdatan -->
-        <canvas id="myDoughnutChart" width="400" height="400"></canvas>
+        <!-- Stapeldiagram -->
+        <div class="diagram2">
+            <canvas id="myBarChart" style=" margin-inline: auto;" width="300" height="300"></canvas>
+        </div>
+            <!-- Skriv ut antal pass de senaste 30 dagarna -->
+
+    <div class="box">
+        <h5 class="center">Number of sessions last 30 days: </h5>
+        <h3 class="center">@ViewBag.TotalWorkoutsCount</h3>
     </div>
 
-    <!-- Stapeldiagram -->
-    <div>
-        <canvas id="myBarChart" width="400" height="400"></canvas>
-    </div>
+</div>    
 
-</div>
-<!-- Skriv ut antal pass de senaste 30 dagarna -->
-<div>
-    <h3>Antal pass de senaste 30 dagarna: @ViewBag.TotalWorkoutsCount</h3>
 
-</div>
+
 
 @section Scripts {
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

@@ -160,5 +160,28 @@ namespace programmeringmed.NetProjekt.Controllers
         {
             return _context.Exercise.Any(e => e.Id == id);
         }
+
+        public async Task<IActionResult> ExerciseShow(string search)
+        {
+            IQueryable<ExerciseModel> exercises = _context.Exercise;
+
+            if (!string.IsNullOrEmpty(search))
+            {
+                string searchLower = search.ToLower(); // Convert search query to lower case
+
+                exercises = exercises.Where(e =>
+                    e.ExerciseName.ToLower().Contains(searchLower) || // Convert database value to lower case
+                    e.BodyPart.BodyPart.ToLower().Contains(searchLower) // Convert database value to lower case
+                );
+            }
+
+            // Now include the related entity (BodyPart)
+            exercises = exercises.Include(e => e.BodyPart);
+
+            return View(await exercises.ToListAsync());
+        }
+
+
+                
     }
 }

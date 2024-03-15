@@ -36,16 +36,17 @@ namespace programmeringmed.NetProjekt.Controllers
 
             // Hämta antal avslutade träningspass för varje typ av träning under de senaste 30 dagarna
             var gymCount = await _context.Workout
-                .Where(w => w.Username == username && w.ExerciseFormId == 2 && w.Completed == true && w.Date >= thirtyDaysAgo)
+                .Where(w => w.Username == username && w.ExerciseFormId == 2 && w.Completed == true && w.Date >= thirtyDaysAgo && w.Date <= DateTime.Today)
                 .CountAsync();
 
             var conditionCount = await _context.Workout
-                .Where(w => w.Username == username && w.ExerciseFormId == 1 && w.Completed == true && w.Date >= thirtyDaysAgo)
+                .Where(w => w.Username == username && w.ExerciseFormId == 1 && w.Completed == true && w.Date >= thirtyDaysAgo && w.Date <= DateTime.Today)
                 .CountAsync();
 
             var skiingCount = await _context.Workout
-                .Where(w => w.Username == username && w.ExerciseFormId == 3 && w.Completed == true && w.Date >= thirtyDaysAgo)
+                .Where(w => w.Username == username && w.ExerciseFormId == 3 && w.Completed == true && w.Date >= thirtyDaysAgo && w.Date <= DateTime.Today)
                 .CountAsync();
+
             // Räkna ihop totala antalet träningspass under de senaste 30 dagarna
             var totalWorkoutsCount = gymCount + conditionCount + skiingCount;
 
@@ -88,24 +89,24 @@ namespace programmeringmed.NetProjekt.Controllers
                 return NotFound();
             }
 
-            var workoutModel = await _context.Workout
-                .Include(w => w.WorkoutExercises)
-                    .ThenInclude(we => we.Exercise) // inkludera övningarna
-                .Include(w => w.ExerciseForm) // inkludera exerciseform
-                .Include(w => w.Condition) // inkludera kondition
-                    .ThenInclude(s => s.ConditionForm)
-                .Include(w => w.Condition) // inkludera kondition
-                    .ThenInclude(s => s.ConditionType) // inkludera condition type
-                .Include(w => w.BodyPart) // inkludera kroppsdel
-                .Include(w => w.Skiing) // inkludera skidåkning
-                    .ThenInclude(s => s.Method) // inkludera metod
-                .Include(w => w.Skiing) // inkludera skidåkning
-                    .ThenInclude(s => s.Focus) // inkludera fokus
-                .Include(w => w.Skiing) // inkludera skidåkning
-                    .ThenInclude(s => s.Discipline) // inkludera disciplin
-                .Include(w => w.Skiing) // inkludera skidåkning
-                    .ThenInclude(s => s.Organization) // inkludera organisation
-                .FirstOrDefaultAsync(m => m.Id == id);
+    var workoutModel = await _context.Workout
+        .Include(w => w.WorkoutExercises)
+            .ThenInclude(we => we.Exercise) // inkludera övningarna
+        .Include(w => w.ExerciseForm) // inkludera exerciseform
+        .Include(w => w.Condition) // inkludera kondition
+            .ThenInclude(c => c.ConditionForm) // inkludera condition form
+        .Include(w => w.Condition) // inkludera kondition
+            .ThenInclude(c => c.ConditionType) // inkludera condition form
+        .Include(w => w.BodyPart) // inkludera kroppsdel
+        .Include(w => w.Skiing) // inkludera skidåkning
+            .ThenInclude(s => s.Method) // inkludera metod
+        .Include(w => w.Skiing) // inkludera skidåkning
+            .ThenInclude(s => s.Focus) // inkludera fokus
+        .Include(w => w.Skiing) // inkludera skidåkning
+            .ThenInclude(s => s.Discipline) // inkludera disciplin
+        .Include(w => w.Skiing) // inkludera skidåkning
+            .ThenInclude(s => s.Organization) // inkludera organisation
+        .FirstOrDefaultAsync(m => m.Id == id);
 
             if (workoutModel == null)
             {
@@ -228,9 +229,13 @@ namespace programmeringmed.NetProjekt.Controllers
                         throw;
                     }
                 }
-
+                if (workoutModel.ExerciseFormId == 1) // Condition
+                {
+                    // Check if ExerciseForm is gym
+                    return RedirectToAction("Edit", "Condition", new { workoutId = workoutModel.Id });
+                }
                 // Redirect the user based on ExerciseFormId
-                if (workoutModel.ExerciseFormId == 2) // Gym
+                else if (workoutModel.ExerciseFormId == 2) // Gym
                 {
                     // Check if ExerciseForm is gym
                     return RedirectToAction("ListByWorkoutId", "WorkoutExercise", new { workoutId = workoutModel.Id });
@@ -256,9 +261,25 @@ namespace programmeringmed.NetProjekt.Controllers
             }
 
             var workoutModel = await _context.Workout
-                .Include(w => w.BodyPart)
-                .Include(w => w.ExerciseForm)
+                .Include(w => w.WorkoutExercises)
+                    .ThenInclude(we => we.Exercise) // inkludera övningarna
+                .Include(w => w.ExerciseForm) // inkludera exerciseform
+                .Include(w => w.Condition) // inkludera kondition
+                    .ThenInclude(c => c.ConditionForm) // inkludera condition form
+                .Include(w => w.Condition) // inkludera kondition
+                    .ThenInclude(c => c.ConditionType) // inkludera condition form
+                .Include(w => w.BodyPart) // inkludera kroppsdel
+                .Include(w => w.Skiing) // inkludera skidåkning
+                    .ThenInclude(s => s.Method) // inkludera metod
+                .Include(w => w.Skiing) // inkludera skidåkning
+                    .ThenInclude(s => s.Focus) // inkludera fokus
+                .Include(w => w.Skiing) // inkludera skidåkning
+                    .ThenInclude(s => s.Discipline) // inkludera disciplin
+                .Include(w => w.Skiing) // inkludera skidåkning
+                    .ThenInclude(s => s.Organization) // inkludera organisation
                 .FirstOrDefaultAsync(m => m.Id == id);
+                
+
             if (workoutModel == null)
             {
                 return NotFound();

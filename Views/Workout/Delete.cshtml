@@ -4,100 +4,240 @@
     ViewData["Title"] = "Delete";
 }
 
+
+<div class="w">
 <h3>Are you sure you want to delete this session?</h3>
-<div>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            Date for session
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Date)
-        </dd>
-        <dt class="col-sm-2">
-            Type of workout
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.ExerciseForm.ExerciseForm)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Comment)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Comment)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Rating)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Rating)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Length)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Length)
-        </dd>
+<hr>
+    <div class="section">
+        <form>
+            <div class="form-group row">
+                <label for="date" class="col-sm-2 col-form-label">Date of session</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="date" value="@Model.Date">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="exerciseForm" class="col-sm-2 col-form-label">Exercise form</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="exerciseForm" value="@Model.ExerciseForm.ExerciseForm">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="comment" class="col-sm-2 col-form-label">@Html.DisplayNameFor(model => model.Comment)</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="comment" value="@Model.Comment">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="rating" class="col-sm-2 col-form-label">@Html.DisplayNameFor(model => model.Rating)</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="rating" value="@{
+                    switch (Model.Rating)
+                    {
+                        case 1:
+                            @Html.Raw("Terrible")
+                            break;
+                        case 2:
+                            @Html.Raw("Bad")
+                            break;
+                        case 3:
+                            @Html.Raw("Okay")
+                            break;
+                        case 4:
+                            @Html.Raw("Good")
+                            break;
+                        case 5:
+                            @Html.Raw("Awesome")
+                            break;
+                        default:
+                            @Html.Raw("Unknown")
+                            break;
+                    }
+                }">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="length" class="col-sm-2 col-form-label">@Html.DisplayNameFor(model => model.Length)</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="length" value="@Model.Length">
+                </div>
+            </div>
 
-        @if (Model.ExerciseForm.ExerciseForm == "Kondition")
-        {
-            <!-- Dölj skiingId om ExerciseForm är Kondition -->
-            <style>
-                .hide-skiingId {
-                    display: none;
+            @if (Model.ExerciseFormId == 1) // Kondition
+            {
+                <div class="form-group row">
+                    <label for="" class="col-sm-2 col-form-label">Condition method</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="" value="@Model.Condition.ConditionForm.ConditionName">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="" class="col-sm-2 col-form-label">Condition Type</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="" value="@Model.Condition.ConditionType.ConditionType">
+                    </div>
+                </div>
+            }
+            else if (Model.ExerciseFormId == 2) // Gym
+            {
+                <div class="form-group row">
+                    <label for="bodyPart" class="col-sm-2 col-form-label">Body part</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="bodyPart" value="@Model.BodyPart.BodyPart">
+                    </div>
+                </div>
+            }
+            else if (Model.ExerciseFormId == 3) // Skidåkning
+            {
+                <div class="form-group row">
+                    <label for="location" class="col-sm-2 col-form-label">Location</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="location" value="@Model.Skiing.Location">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="organization" class="col-sm-2 col-form-label">Organization</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="organization" value="@Model.Skiing.Organization.OrganizationName">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="discipline" class="col-sm-2 col-form-label">Discipline</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="discipline" value="@Model.Skiing.Discipline.DisciplineName">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="method" class="col-sm-2 col-form-label">Method</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="method" value="@Model.Skiing.Method.MethodName">
+                    </div>
+                </div>
+
+                @if (Model.Skiing.MethodId == 2) 
+                {
+                    <div class="form-group row">
+                        <label for="focus" class="col-sm-2 col-form-label">Focus</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="focus" value="@Model.Skiing.Focus.FocusName">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="turnsPerRun" class="col-sm-2 col-form-label">Turns Per Run</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="turnsPerRun" value="@Model.Skiing.TurnsPerRun">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="gateDistance" class="col-sm-2 col-form-label">Gate Distance</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="gateDistance" value="@Model.Skiing.GateDistance">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="freeruns" class="col-sm-2 col-form-label">Freeruns</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="freeruns" value="@Model.Skiing.Freeruns">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="runs" class="col-sm-2 col-form-label">Runs</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="runs" value="@Model.Skiing.Runs">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="completedRuns" class="col-sm-2 col-form-label">Completed Runs</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="completedRuns" value="@Model.Skiing.CompletedRuns">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="approachToTask" class="col-sm-2 col-form-label">Approach To Task</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="approachToTask" value="@{
+                    switch (Model.Skiing.ApproachToTask)
+                    {
+                        case 1:
+                            @Html.Raw("Terrible")
+                            break;
+                        case 2:
+                            @Html.Raw("Bad")
+                            break;
+                        case 3:
+                            @Html.Raw("Okay")
+                            break;
+                        case 4:
+                            @Html.Raw("Good")
+                            break;
+                        case 5:
+                            @Html.Raw("Awesome")
+                            break;
+                        default:
+                            @Html.Raw("Unknown")
+                            break;
+                    }
+                }">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="goal" class="col-sm-2 col-form-label">Goal</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="goal" value="@Model.Skiing.Goal">
+                        </div>
+                    </div>
                 }
-            </style>
-        }
-        else if (Model.ExerciseForm.ExerciseForm == "2")
+            }
+        </form>
+    </div>
+
+
+
+    <div class="section">
+        @if (Model.WorkoutExercises.Any())
         {
-            <!-- Dölj BodyPartId -->
-            <style>
-                .hide-bodyPartId {
-                    display: none;
-                }
-            </style>
+            <div class="mt-5">
+                <h4>Exercises</h4>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Exercise</th>
+                            <th class="iframe">Video</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.WorkoutExercises)
+                        {
+                            <tr >
+                                <td>@Html.DisplayFor(modelItem => item.Exercise.ExerciseName)</td>
+                                <td>
+                                    @if (!string.IsNullOrEmpty(item.Exercise.VideoUrl))
+                                    {
+                                        <iframe class="iframe" src="@item.Exercise.VideoUrl" frameborder="0" allowfullscreen></iframe>
+                                    }
+                                    else
+                                    {
+                                        <p>No video available</p>
+                                    }
+                                </td>
+                                <td> 
+                                    <a asp-controller="Exercise" asp-action="Details" asp-route-id="@item.Exercise.Id">Details</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
         }
-        else if (Model.ExerciseForm.ExerciseForm == "Skidåkning")
-        {
-            <!-- Dölj BodyPartId -->
-            <style>
-                .hide-bodyPartId {
-                    display: none;
-                }
-            </style>
-        }
-
-        <!-- För BodyPartId -->
-        <dt class="col-sm-2 hide-bodyPartId">
-            @Html.DisplayNameFor(model => model.BodyPart)
-        </dt>
-        <dd class="col-sm-10 hide-bodyPartId">
-            @Html.DisplayFor(model => model.BodyPart.BodyPart)
-        </dd>
-
-        <!-- För SkiingId -->
-        <dt class="col-sm-2 hide-skiingId">
-            @Html.DisplayNameFor(model => model.SkiingId)
-        </dt>
-        <dd class="col-sm-10 hide-skiingId">
-            @Html.DisplayFor(model => model.SkiingId)
-        </dd>
-    </dl>
-
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="Id" />
-        <input type="submit" style="Background-color:rgb(199, 7, 7);" value="Delete" class="btn deleteBtn" /> 
-    </form>
-    <div class="mt-2 d-flex align-items-center">
+    <div class="mt-5 d-flex align-items-center">
         <a asp-action="Details" asp-route-id="@Model.Id" class="d-flex align-items-center">
             <img class="mx-2" src="/Images/arrow.png" alt="">
             <span>Go Back</span>
         </a>
     </div>
+    <form asp-action="Delete" class="center">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" style="Background-color:rgb(199, 7, 7);" value="Delete" class="btn deleteBtn" /> 
+    </form>
+
 </div>

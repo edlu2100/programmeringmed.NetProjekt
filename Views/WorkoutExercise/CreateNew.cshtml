@@ -4,42 +4,44 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Add Exercises</h1>
+<div class="w">
+    <h1>Add Exercises</h1>
 
 
-<hr />
-<div id="exercise-forms" class="mt-3">
-    <div class="row exercise-form">
-        <div class="col-md-4">
-            <form class="workout-form divinput" asp-action="CreateNew" asp-route-workoutId="@ViewData["WorkoutId"]" >
-                <input type="hidden" asp-for="WorkoutId" value="@ViewData["WorkoutId"]" />
+    <hr />
+    <div id="exercise-forms" class="mt-3">
+        <div class="row exercise-form">
+            <div class="col-md-4">
+                <form class="workout-form divinput" asp-action="CreateNew" asp-route-workoutId="@ViewData["WorkoutId"]" >
+                    <input type="hidden" asp-for="WorkoutId" value="@ViewData["WorkoutId"]" />
 
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-                <div class="form-group">
-                    <label asp-for="ExerciseId" class="control-label">Exercise</label>
-                    <select asp-for="ExerciseId" class="form-control" asp-items="ViewBag.ExerciseId"></select>
-                </div>
-            </form>
-            
+                    <div class="form-group">
+                        <label asp-for="ExerciseId" class="control-label">Exercise</label>
+                        <select asp-for="ExerciseId" class="form-control" asp-items="ViewBag.ExerciseId"></select>
+                    </div>
+                </form>
+                
+            </div>
         </div>
+
     </div>
 
-</div>
+    <div class="form-group mt-3">
+        <button id="add-exercise-form" class="btn btn-success">Add Another Exercise</button>
+    </div>
 
-<div class="form-group mt-3">
-    <button id="add-exercise-form" class="btn btn-success">Add Another Exercise</button>
-</div>
+    <div class="form-group">
+        <button id="save-exercises" class="btn btn-primary">Save Exercises</button>
+    </div>
+    <div class="mt-2 d-flex align-items-center">
+        <a asp-action="Index" asp-controller="Workout" class="d-flex align-items-center">
+            <span>Skip</span>
+            <img class="mx-2 rotated-image" src="/Images/arrow.png" alt="" style>
 
-<div class="form-group">
-    <button id="save-exercises" class="btn btn-primary">Save Exercises</button>
-</div>
-<div class="mt-2 d-flex align-items-center">
-    <a asp-action="Index" asp-controller="Workout" class="d-flex align-items-center">
-        <span>Skip</span>
-        <img class="mx-2 rotated-image" src="/Images/arrow.png" alt="" style>
-
-    </a>
+        </a>
+    </div>
 </div>
 
 @section scripts {
