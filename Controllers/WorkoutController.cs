@@ -89,32 +89,34 @@ namespace programmeringmed.NetProjekt.Controllers
                 return NotFound();
             }
 
-    var workoutModel = await _context.Workout
-        .Include(w => w.WorkoutExercises)
-            .ThenInclude(we => we.Exercise) // inkludera övningarna
-        .Include(w => w.ExerciseForm) // inkludera exerciseform
-        .Include(w => w.Condition) // inkludera kondition
-            .ThenInclude(c => c.ConditionForm) // inkludera condition form
-        .Include(w => w.Condition) // inkludera kondition
-            .ThenInclude(c => c.ConditionType) // inkludera condition form
-        .Include(w => w.BodyPart) // inkludera kroppsdel
-        .Include(w => w.Skiing) // inkludera skidåkning
-            .ThenInclude(s => s.Method) // inkludera metod
-        .Include(w => w.Skiing) // inkludera skidåkning
-            .ThenInclude(s => s.Focus) // inkludera fokus
-        .Include(w => w.Skiing) // inkludera skidåkning
-            .ThenInclude(s => s.Discipline) // inkludera disciplin
-        .Include(w => w.Skiing) // inkludera skidåkning
-            .ThenInclude(s => s.Organization) // inkludera organisation
-        .FirstOrDefaultAsync(m => m.Id == id);
+            var workoutModel = await _context.Workout
+                .Include(w => w.WorkoutExercises)
+                    .ThenInclude(we => we.Exercise) // inkludera övningarna
+                .Include(w => w.ExerciseForm) // inkludera exerciseform
+                .Include(w => w.Condition) // inkludera kondition
+                    .ThenInclude(c => c.ConditionForm) // inkludera condition form
+                .Include(w => w.Condition) // inkludera kondition
+                    .ThenInclude(c => c.ConditionType) // inkludera condition form
+                .Include(w => w.BodyPart) // inkludera kroppsdel
+                .Include(w => w.Skiing) // inkludera skidåkning
+                    .ThenInclude(s => s.Method) // inkludera metod
+                .Include(w => w.Skiing) // inkludera skidåkning
+                    .ThenInclude(s => s.Focus) // inkludera fokus
+                .Include(w => w.Skiing) // inkludera skidåkning
+                    .ThenInclude(s => s.Discipline) // inkludera disciplin
+                .Include(w => w.Skiing) // inkludera skidåkning
+                    .ThenInclude(s => s.Organization) // inkludera organisation
+                .FirstOrDefaultAsync(m => m.Id == id);
 
-            if (workoutModel == null)
-            {
-                return NotFound();
-            }
+                    if (workoutModel == null)
+                    {
+                        return NotFound();
+                    }
 
-            return View(workoutModel);
-        }
+                    return View(workoutModel);
+                }
+
+        // GET: Workout/Create
 
 
         // GET: Workout/Create
